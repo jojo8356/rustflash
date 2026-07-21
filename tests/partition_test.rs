@@ -1,7 +1,7 @@
 use std::io::Write;
 use tempfile::NamedTempFile;
 
-use rustflash::core::partition::{PartitionManager, TableType, FsType, parse_size};
+use rustflash::core::partition::{FsType, PartitionManager, TableType, parse_size};
 
 /// Helper: create a temp file of given size filled with zeros.
 fn create_image(size: usize) -> NamedTempFile {
