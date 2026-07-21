@@ -47,7 +47,7 @@ pub async fn ensure_unmounted(device_path: &str) -> anyhow::Result<()> {
 
 #[cfg(not(target_os = "linux"))]
 fn is_block_device_path(device_path: &str) -> bool {
-    if let Ok(metadata) = std::fs::metadata(device_path) {
+    if let Ok(_metadata) = std::fs::metadata(device_path) {
         #[cfg(unix)]
         {
             use std::os::unix::fs::FileTypeExt;
