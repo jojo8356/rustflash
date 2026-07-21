@@ -34,8 +34,43 @@ pub async fn ensure_unmounted(device_path: &str) -> anyhow::Result<()> {
 
     #[cfg(not(target_os = "linux"))]
     {
+        if !is_block_device_path(device_path) {
+            tracing::info!(device = device_path, "Skipping unmount for non-device path");
+            return Ok(());
+        }
+
         unmount_all_partitions(device_path).await?;
     }
 
     Ok(())
+}
+
+#[cfg(not(target_os = "linux"))]
+fn is_block_device_path(device_path: &str) -> bool {
+    if let Ok(metadata) = std::fs::metadata(device_path) {
+        #[cfg(unix)]
+        {
+            use std::os::unix::fs::FileTypeExt;
+            let ft = metadata.file_type();
+            if ft.is_block_device() || ft.is_char_device() {
+                return true;
+            }
+        }
+    }
+
+    let normalized = device_path.to_ascii_lowercase();
+    #[cfg(unix)]
+    {
+        if normalized.starts_with("/dev/") {
+            return true;
+        }
+    }
+    #[cfg(windows)]
+    {
+        if normalized.starts_with(r"\\.\") {
+            return true;
+        }
+    }
+
+    false
 }
