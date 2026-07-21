@@ -96,14 +96,30 @@ pub struct LoggingConfig {
 }
 
 // Default value helpers
-fn default_theme() -> String { "dark".into() }
-fn default_language() -> String { "en".into() }
-fn default_true() -> bool { true }
-fn default_block_size() -> usize { 4 * 1024 * 1024 }
-fn default_timeout() -> u64 { 300 }
-fn default_compression() -> String { "zstd".into() }
-fn default_compression_level() -> u32 { 3 }
-fn default_log_level() -> String { "info".into() }
+fn default_theme() -> String {
+    "dark".into()
+}
+fn default_language() -> String {
+    "en".into()
+}
+fn default_true() -> bool {
+    true
+}
+fn default_block_size() -> usize {
+    4 * 1024 * 1024
+}
+fn default_timeout() -> u64 {
+    300
+}
+fn default_compression() -> String {
+    "zstd".into()
+}
+fn default_compression_level() -> u32 {
+    3
+}
+fn default_log_level() -> String {
+    "info".into()
+}
 
 impl Default for AppConfig {
     fn default() -> Self {

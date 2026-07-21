@@ -1,7 +1,7 @@
 use assert_cmd::cargo::cargo_bin_cmd;
 use predicates::prelude::*;
 use std::io::Write;
-use tempfile::{tempdir, NamedTempFile};
+use tempfile::{NamedTempFile, tempdir};
 
 #[test]
 fn e2e_flash_file_target_smoke() {
@@ -112,12 +112,7 @@ fn e2e_partition_workflow_smoke() {
 
     // Create GPT partition table
     let out = cargo_bin_cmd!("rustflash")
-        .args([
-            "partition",
-            &device_path,
-            "create",
-            "gpt",
-        ])
+        .args(["partition", &device_path, "create", "gpt"])
         .assert()
         .success()
         .stdout(predicate::str::contains("Partition table created."))

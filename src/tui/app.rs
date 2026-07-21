@@ -995,8 +995,7 @@ impl App {
                                     self.restore_state = RestoreState::ShowHeader;
                                 }
                                 Err(e) => {
-                                    self.status_message =
-                                        Some(format!("Invalid backup: {e}"));
+                                    self.status_message = Some(format!("Invalid backup: {e}"));
                                 }
                             }
                         } else {
@@ -1073,8 +1072,7 @@ impl App {
                                 self.partition_table_type = None;
                                 self.partition_table.clear();
                                 self.partition_state = PartitionState::ShowTable;
-                                self.status_message =
-                                    Some("No partition table found.".into());
+                                self.status_message = Some("No partition table found.".into());
                             }
                         }
                         self.partition_selected = 0;
@@ -1118,8 +1116,7 @@ impl App {
                         self.partition_error = None;
 
                         match action {
-                            PartitionActionType::Erase
-                            | PartitionActionType::CreateTable => {
+                            PartitionActionType::Erase | PartitionActionType::CreateTable => {
                                 self.partition_state = PartitionState::Confirm;
                             }
                             _ => {
@@ -1143,8 +1140,7 @@ impl App {
                         Some(PartitionActionType::Format) => 1, // number, type
                         _ => 0,
                     };
-                    self.partition_input_field =
-                        (self.partition_input_field + 1).min(max_fields);
+                    self.partition_input_field = (self.partition_input_field + 1).min(max_fields);
                 }
                 KeyCode::BackTab => {
                     self.partition_input_field = self.partition_input_field.saturating_sub(1);
@@ -1164,9 +1160,7 @@ impl App {
                 KeyCode::Esc => {
                     let prev = match self.partition_action {
                         Some(PartitionActionType::Erase)
-                        | Some(PartitionActionType::CreateTable) => {
-                            PartitionState::SelectAction
-                        }
+                        | Some(PartitionActionType::CreateTable) => PartitionState::SelectAction,
                         _ => PartitionState::InputParams,
                     };
                     self.partition_state = prev;
@@ -1234,13 +1228,7 @@ impl App {
 
                 match crate::core::partition::parse_size(size_str) {
                     Ok(size_bytes) => {
-                        match PartitionManager::add_partition(
-                            &device,
-                            fs,
-                            size_bytes,
-                            label,
-                            &[],
-                        ) {
+                        match PartitionManager::add_partition(&device, fs, size_bytes, label, &[]) {
                             Ok(()) => {
                                 self.partition_state = PartitionState::Done;
                                 self.status_message = Some("Partition added.".into());
@@ -1305,8 +1293,7 @@ impl App {
 
                 let dev = device.clone();
                 tokio::spawn(async move {
-                    let _ =
-                        PartitionManager::secure_erase(&dev, EraseMethod::Zero, Some(tx)).await;
+                    let _ = PartitionManager::secure_erase(&dev, EraseMethod::Zero, Some(tx)).await;
                 });
             }
             None => {}
@@ -1352,10 +1339,7 @@ impl App {
     }
 
     fn init_rfb_browser(&mut self) {
-        self.file_browser = Some(FileBrowser::new(
-            &Self::home_dir(),
-            vec!["rfb".into()],
-        ));
+        self.file_browser = Some(FileBrowser::new(&Self::home_dir(), vec!["rfb".into()]));
     }
 
     fn init_all_browser(&mut self) {

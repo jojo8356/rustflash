@@ -94,8 +94,7 @@ pub async fn execute(args: &BackupArgs) -> anyhow::Result<()> {
     let source = args.source.clone();
     let output = args.output.clone();
 
-    let handle =
-        tokio::spawn(async move { engine.create_backup(&source, &output, tx).await });
+    let handle = tokio::spawn(async move { engine.create_backup(&source, &output, tx).await });
 
     let bar = ProgressBar::new(0);
     bar.set_style(

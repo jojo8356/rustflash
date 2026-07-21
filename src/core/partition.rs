@@ -256,9 +256,7 @@ impl PartitionManager {
     ) -> anyhow::Result<()> {
         tracing::info!(device, fs = ?fs_type, size = size_bytes, "Adding partition");
 
-        let cfg = gpt::GptConfig::new()
-            .writable(true)
-            .initialized(true);
+        let cfg = gpt::GptConfig::new().writable(true).initialized(true);
         let mut disk = cfg.open(device)?;
 
         let part_type = fs_to_gpt_type(fs_type);
@@ -271,10 +269,7 @@ impl PartitionManager {
                 gpt::disk::LogicalBlockSize::Lb512 => 512u64,
                 gpt::disk::LogicalBlockSize::Lb4096 => 4096u64,
             };
-            free.iter()
-                .map(|(_, len)| len * lbs)
-                .max()
-                .unwrap_or(0)
+            free.iter().map(|(_, len)| len * lbs).max().unwrap_or(0)
         } else {
             size_bytes
         };
@@ -294,9 +289,7 @@ impl PartitionManager {
     pub fn delete_partition(device: &str, number: u32) -> anyhow::Result<()> {
         tracing::info!(device, number, "Deleting partition");
 
-        let cfg = gpt::GptConfig::new()
-            .writable(true)
-            .initialized(true);
+        let cfg = gpt::GptConfig::new().writable(true).initialized(true);
         let mut disk = cfg.open(device)?;
 
         // Get the partition's GUID for removal
@@ -425,7 +418,7 @@ impl PartitionManager {
                         rand::thread_rng().fill_bytes(&mut buf);
                     }
                     EraseMethod::Dod => match pass {
-                        0 => {} // zeros
+                        0 => {}              // zeros
                         1 => buf.fill(0xFF), // ones
                         _ => {
                             use rand::RngCore;
@@ -573,11 +566,11 @@ fn read_mbr_table(device: &str) -> anyhow::Result<(TableType, Vec<PartitionInfo>
 
 fn mbr_type_to_fs(type_id: u8) -> FsType {
     match type_id {
-        0x83 => FsType::Ext4,          // Linux
+        0x83 => FsType::Ext4,                // Linux
         0x0B | 0x0C | 0x0E => FsType::Fat32, // FAT32 variants
-        0x07 => FsType::Ntfs,          // NTFS/exFAT/HPFS
-        0x82 => FsType::Swap,          // Linux swap
-        0xAF => FsType::Hfs,           // HFS+
+        0x07 => FsType::Ntfs,                // NTFS/exFAT/HPFS
+        0x82 => FsType::Swap,                // Linux swap
+        0xAF => FsType::Hfs,                 // HFS+
         _ => FsType::Unknown,
     }
 }

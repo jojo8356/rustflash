@@ -15,8 +15,8 @@ pub fn render(frame: &mut Frame, app: &App) {
     let chunks = Layout::vertical([
         Constraint::Length(3),  // title
         Constraint::Length(10), // menu
-        Constraint::Min(5),    // devices
-        Constraint::Length(3), // status bar
+        Constraint::Min(5),     // devices
+        Constraint::Length(3),  // status bar
     ])
     .split(area);
 
@@ -41,35 +41,68 @@ fn render_title(frame: &mut Frame, area: Rect) {
 fn render_menu(frame: &mut Frame, area: Rect) {
     let menu_items = vec![
         Line::from(vec![
-            Span::styled("  [F] ", Style::default().fg(Color::Cyan).add_modifier(Modifier::BOLD)),
+            Span::styled(
+                "  [F] ",
+                Style::default()
+                    .fg(Color::Cyan)
+                    .add_modifier(Modifier::BOLD),
+            ),
             Span::raw("Flash image"),
             Span::raw("          "),
-            Span::styled("[C] ", Style::default().fg(Color::Cyan).add_modifier(Modifier::BOLD)),
+            Span::styled(
+                "[C] ",
+                Style::default()
+                    .fg(Color::Cyan)
+                    .add_modifier(Modifier::BOLD),
+            ),
             Span::raw("Clone disk"),
         ]),
         Line::from(vec![
-            Span::styled("  [B] ", Style::default().fg(Color::Cyan).add_modifier(Modifier::BOLD)),
+            Span::styled(
+                "  [B] ",
+                Style::default()
+                    .fg(Color::Cyan)
+                    .add_modifier(Modifier::BOLD),
+            ),
             Span::raw("Backup"),
             Span::raw("               "),
-            Span::styled("[R] ", Style::default().fg(Color::Cyan).add_modifier(Modifier::BOLD)),
+            Span::styled(
+                "[R] ",
+                Style::default()
+                    .fg(Color::Cyan)
+                    .add_modifier(Modifier::BOLD),
+            ),
             Span::raw("Restore"),
         ]),
         Line::from(vec![
-            Span::styled("  [P] ", Style::default().fg(Color::Cyan).add_modifier(Modifier::BOLD)),
+            Span::styled(
+                "  [P] ",
+                Style::default()
+                    .fg(Color::Cyan)
+                    .add_modifier(Modifier::BOLD),
+            ),
             Span::raw("Partitions"),
             Span::raw("           "),
-            Span::styled("[S] ", Style::default().fg(Color::Cyan).add_modifier(Modifier::BOLD)),
+            Span::styled(
+                "[S] ",
+                Style::default()
+                    .fg(Color::Cyan)
+                    .add_modifier(Modifier::BOLD),
+            ),
             Span::raw("Settings"),
         ]),
         Line::from(""),
         Line::from(vec![
-            Span::styled("  [Q] ", Style::default().fg(Color::Red).add_modifier(Modifier::BOLD)),
+            Span::styled(
+                "  [Q] ",
+                Style::default().fg(Color::Red).add_modifier(Modifier::BOLD),
+            ),
             Span::raw("Quit"),
         ]),
     ];
 
-    let menu = Paragraph::new(menu_items)
-        .block(Block::default().title(" Menu ").borders(Borders::ALL));
+    let menu =
+        Paragraph::new(menu_items).block(Block::default().title(" Menu ").borders(Borders::ALL));
     frame.render_widget(menu, area);
 }
 

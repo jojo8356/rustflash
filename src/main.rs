@@ -27,9 +27,7 @@ async fn main() -> anyhow::Result<()> {
         Some(Commands::Flash(ref args)) => rustflash::cli::commands::flash::execute(args).await,
         Some(Commands::Clone(ref args)) => rustflash::cli::commands::clone::execute(args).await,
         Some(Commands::Backup(ref args)) => rustflash::cli::commands::backup::execute(args).await,
-        Some(Commands::Restore(ref args)) => {
-            rustflash::cli::commands::restore::execute(args).await
-        }
+        Some(Commands::Restore(ref args)) => rustflash::cli::commands::restore::execute(args).await,
         Some(Commands::Partition(ref args)) => {
             rustflash::cli::commands::partition::execute(args).await
         }

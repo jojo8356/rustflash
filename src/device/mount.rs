@@ -14,7 +14,11 @@ pub async fn ensure_unmounted(device_path: &str) -> anyhow::Result<()> {
         for line in mounts.lines() {
             let parts: Vec<&str> = line.split_whitespace().collect();
             if parts.len() >= 2 && parts[0].starts_with(device_path) {
-                tracing::info!(partition = parts[0], mount = parts[1], "Unmounting partition");
+                tracing::info!(
+                    partition = parts[0],
+                    mount = parts[1],
+                    "Unmounting partition"
+                );
                 let output = std::process::Command::new("umount")
                     .arg(parts[0])
                     .output()?;

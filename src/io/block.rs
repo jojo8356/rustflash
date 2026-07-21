@@ -13,7 +13,11 @@ pub struct BlockWriter {
 impl BlockWriter {
     /// Fonction publique `open`
     pub async fn open(device_path: &str, block_size: usize) -> anyhow::Result<Self> {
-        tracing::debug!(device = device_path, block_size, "Opening device for writing");
+        tracing::debug!(
+            device = device_path,
+            block_size,
+            "Opening device for writing"
+        );
 
         let file = tokio::fs::OpenOptions::new()
             .write(true)

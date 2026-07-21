@@ -11,10 +11,7 @@ async fn backup_restore_roundtrip(compression: &str) {
     src.flush().unwrap();
 
     // Output .rfb file
-    let output = tempfile::Builder::new()
-        .suffix(".rfb")
-        .tempfile()
-        .unwrap();
+    let output = tempfile::Builder::new().suffix(".rfb").tempfile().unwrap();
 
     // Create backup
     let config = BackupConfig {
@@ -26,9 +23,7 @@ async fn backup_restore_roundtrip(compression: &str) {
     let engine = BackupEngine::new(config);
     let (tx, mut rx) = tokio::sync::mpsc::channel(64);
 
-    tokio::spawn(async move {
-        while rx.recv().await.is_some() {}
-    });
+    tokio::spawn(async move { while rx.recv().await.is_some() {} });
 
     engine
         .create_backup(
@@ -60,9 +55,7 @@ async fn backup_restore_roundtrip(compression: &str) {
     let restore_engine = BackupEngine::new(restore_config);
     let (tx2, mut rx2) = tokio::sync::mpsc::channel(64);
 
-    tokio::spawn(async move {
-        while rx2.recv().await.is_some() {}
-    });
+    tokio::spawn(async move { while rx2.recv().await.is_some() {} });
 
     restore_engine
         .restore_backup(
@@ -101,10 +94,7 @@ async fn test_backup_invalid_magic() {
 
     let result = BackupEngine::read_header(bad_file.path().to_str().unwrap());
     assert!(result.is_err());
-    assert!(result
-        .unwrap_err()
-        .to_string()
-        .contains("invalid magic"));
+    assert!(result.unwrap_err().to_string().contains("invalid magic"));
 }
 
 #[tokio::test]
@@ -114,10 +104,7 @@ async fn test_backup_read_header() {
     src.write_all(&vec![0xEEu8; 64 * 1024]).unwrap();
     src.flush().unwrap();
 
-    let output = tempfile::Builder::new()
-        .suffix(".rfb")
-        .tempfile()
-        .unwrap();
+    let output = tempfile::Builder::new().suffix(".rfb").tempfile().unwrap();
 
     let config = BackupConfig {
         block_size: 32 * 1024,
@@ -129,9 +116,7 @@ async fn test_backup_read_header() {
     let engine = BackupEngine::new(config);
     let (tx, mut rx) = tokio::sync::mpsc::channel(64);
 
-    tokio::spawn(async move {
-        while rx.recv().await.is_some() {}
-    });
+    tokio::spawn(async move { while rx.recv().await.is_some() {} });
 
     engine
         .create_backup(

@@ -237,7 +237,11 @@ impl Flasher {
         })
         .await??;
 
-        tracing::info!(bytes_written, target = target_device, "Flash write complete");
+        tracing::info!(
+            bytes_written,
+            target = target_device,
+            "Flash write complete"
+        );
 
         // Verification pass
         if verify {
@@ -281,4 +285,3 @@ impl Flasher {
         Ok(())
     }
 }
-

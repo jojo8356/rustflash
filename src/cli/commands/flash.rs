@@ -134,7 +134,9 @@ pub async fn execute(args: &FlashArgs) -> anyhow::Result<()> {
         let target_clone = args.target[0].clone();
 
         let flash_handle = tokio::spawn(async move {
-            flasher.flash(&image_clone, &target_clone, progress_tx).await
+            flasher
+                .flash(&image_clone, &target_clone, progress_tx)
+                .await
         });
 
         let bar = ProgressBar::new(0);
@@ -272,9 +274,8 @@ async fn download_image_with_progress(url: &str) -> anyhow::Result<PathBuf> {
     let path_clone = download_path.clone();
     let url_owned = url.to_string();
 
-    let dl_handle = tokio::spawn(async move {
-        download::download_image(&url_owned, &path_clone, dl_tx).await
-    });
+    let dl_handle =
+        tokio::spawn(async move { download::download_image(&url_owned, &path_clone, dl_tx).await });
 
     let dl_bar = ProgressBar::new_spinner();
     dl_bar.set_style(

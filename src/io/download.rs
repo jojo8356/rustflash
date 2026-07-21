@@ -35,7 +35,11 @@ pub async fn download_image(
 
     let (response, mut file, initial_offset, resumed) = if existing_size > 0 {
         // Try resume with Range header
-        tracing::info!(url, existing_bytes = existing_size, "Attempting resume download");
+        tracing::info!(
+            url,
+            existing_bytes = existing_size,
+            "Attempting resume download"
+        );
 
         let resp = client
             .get(url)
@@ -45,10 +49,7 @@ pub async fn download_image(
 
         if resp.status() == reqwest::StatusCode::PARTIAL_CONTENT {
             // Server supports resume
-            let f = OpenOptions::new()
-                .append(true)
-                .open(output_path)
-                .await?;
+            let f = OpenOptions::new().append(true).open(output_path).await?;
             tracing::info!(resumed_at = existing_size, "Resuming download");
             (resp, f, existing_size, true)
         } else if resp.status().is_success() {
@@ -99,11 +100,7 @@ pub async fn download_image(
     }
 
     file.flush().await?;
-    tracing::info!(
-        bytes = bytes_downloaded,
-        resumed,
-        "Download complete"
-    );
+    tracing::info!(bytes = bytes_downloaded, resumed, "Download complete");
 
     Ok(())
 }

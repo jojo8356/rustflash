@@ -139,10 +139,7 @@ pub async fn execute(args: &PartitionArgs) -> anyhow::Result<()> {
         }
 
         PartitionAction::Delete { number } => {
-            println!(
-                "Deleting partition {} on {}...",
-                number, args.device
-            );
+            println!("Deleting partition {} on {}...", number, args.device);
 
             print!("Continue? [y/N] ");
             use std::io::Write;

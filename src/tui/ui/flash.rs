@@ -13,8 +13,8 @@ pub fn render(frame: &mut Frame, app: &App) {
     let area = frame.area();
 
     let chunks = Layout::vertical([
-        Constraint::Length(3),  // title
-        Constraint::Length(5),  // step indicator
+        Constraint::Length(3), // title
+        Constraint::Length(5), // step indicator
         Constraint::Min(8),    // main content
         Constraint::Length(3), // progress / status
     ])
@@ -150,11 +150,10 @@ fn render_target_select(frame: &mut Frame, area: Rect, app: &App) {
         .borders(Borders::ALL);
 
     if app.devices.is_empty() {
-        let widget = Paragraph::new(
-            "  No removable devices detected.\n  Plug in a USB drive or SD card.",
-        )
-        .style(Style::default().fg(Color::DarkGray))
-        .block(block);
+        let widget =
+            Paragraph::new("  No removable devices detected.\n  Plug in a USB drive or SD card.")
+                .style(Style::default().fg(Color::DarkGray))
+                .block(block);
         frame.render_widget(widget, area);
     } else {
         let items: Vec<ListItem> = app
@@ -189,10 +188,7 @@ fn render_confirm(frame: &mut Frame, area: Rect, app: &App) {
         .as_ref()
         .map(|p| p.display().to_string())
         .unwrap_or_else(|| "?".into());
-    let target_str = app
-        .selected_target
-        .as_deref()
-        .unwrap_or("?");
+    let target_str = app.selected_target.as_deref().unwrap_or("?");
 
     let text = vec![
         Line::from(""),

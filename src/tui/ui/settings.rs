@@ -25,7 +25,11 @@ pub fn render(frame: &mut Frame, app: &App) {
 
 fn render_title(frame: &mut Frame, area: Rect) {
     let title = Paragraph::new("Settings")
-        .style(Style::default().fg(Color::Cyan).add_modifier(Modifier::BOLD))
+        .style(
+            Style::default()
+                .fg(Color::Cyan)
+                .add_modifier(Modifier::BOLD),
+        )
         .alignment(ratatui::layout::Alignment::Center)
         .block(Block::default().borders(Borders::BOTTOM));
     frame.render_widget(title, area);
@@ -34,21 +38,32 @@ fn render_title(frame: &mut Frame, area: Rect) {
 fn render_content(frame: &mut Frame, area: Rect, _app: &App) {
     let info = vec![
         Line::from(""),
-        Line::from(vec![
-            Span::styled("  Application notes", Style::default().fg(Color::Yellow).add_modifier(Modifier::BOLD)),
-        ]),
-        Line::from("  - Device safety-by-default is enabled (system disks hidden unless expert mode)."),
+        Line::from(vec![Span::styled(
+            "  Application notes",
+            Style::default()
+                .fg(Color::Yellow)
+                .add_modifier(Modifier::BOLD),
+        )]),
+        Line::from(
+            "  - Device safety-by-default is enabled (system disks hidden unless expert mode).",
+        ),
         Line::from("  - Cross-platform device enumeration is available (Linux, Windows, macOS)."),
         Line::from("  - Flash/clone/delete flows are centralized in the core workflow."),
         Line::from(""),
-        Line::from(vec![
-            Span::styled("  Upcoming options", Style::default().fg(Color::Yellow).add_modifier(Modifier::BOLD)),
-        ]),
+        Line::from(vec![Span::styled(
+            "  Upcoming options",
+            Style::default()
+                .fg(Color::Yellow)
+                .add_modifier(Modifier::BOLD),
+        )]),
         Line::from("  - Persisted preferences"),
         Line::from("  - Device filtering presets"),
         Line::from("  - Runtime log level"),
         Line::from(""),
-        Line::from(vec![Span::styled("  For now this screen is informational.", Style::default().fg(Color::DarkGray))]),
+        Line::from(vec![Span::styled(
+            "  For now this screen is informational.",
+            Style::default().fg(Color::DarkGray),
+        )]),
     ];
 
     let list = List::new(

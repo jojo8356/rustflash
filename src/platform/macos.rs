@@ -7,9 +7,7 @@ pub struct MacosEnumerator;
 
 impl DeviceEnumerator for MacosEnumerator {
     fn list_devices(&self, include_system: bool) -> anyhow::Result<Vec<DeviceInfo>> {
-        let output = Command::new("diskutil")
-            .arg("list")
-            .output()?;
+        let output = Command::new("diskutil").arg("list").output()?;
 
         if !output.status.success() {
             let stderr = String::from_utf8_lossy(&output.stderr);
@@ -56,17 +54,19 @@ impl DeviceEnumerator for MacosEnumerator {
             .and_then(parse_bytes_from_diskutil_line)
             .unwrap_or(0);
 
-            let mount_point = read_macos_disk_info(&device_path, |line| {
-                line.starts_with("Mount Point:")
-            })
-            .and_then(|line| {
-                let value = line.split_once(':').map(|(_, value)| value.trim()).unwrap_or("");
-                if value.is_empty() {
-                    None
-                } else {
-                    Some(value.to_string())
-                }
-            });
+            let mount_point =
+                read_macos_disk_info(&device_path, |line| line.starts_with("Mount Point:"))
+                    .and_then(|line| {
+                        let value = line
+                            .split_once(':')
+                            .map(|(_, value)| value.trim())
+                            .unwrap_or("");
+                        if value.is_empty() {
+                            None
+                        } else {
+                            Some(value.to_string())
+                        }
+                    });
 
             devices.push(DeviceInfo {
                 path: device_path,

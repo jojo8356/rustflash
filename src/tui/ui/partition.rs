@@ -13,8 +13,8 @@ pub fn render(frame: &mut Frame, app: &App) {
     let area = frame.area();
 
     let chunks = Layout::vertical([
-        Constraint::Length(3),  // title
-        Constraint::Length(3),  // step indicator
+        Constraint::Length(3), // title
+        Constraint::Length(3), // step indicator
         Constraint::Min(8),    // main content
         Constraint::Length(3), // status
     ])
@@ -67,8 +67,7 @@ fn render_steps(frame: &mut Frame, area: Rect, app: &App) {
         })
         .collect();
 
-    let widget = Paragraph::new(Line::from(spans))
-        .block(Block::default().borders(Borders::ALL));
+    let widget = Paragraph::new(Line::from(spans)).block(Block::default().borders(Borders::ALL));
     frame.render_widget(widget, area);
 }
 
@@ -110,11 +109,7 @@ fn render_select_device(frame: &mut Frame, area: Rect, app: &App) {
         " Select a device (↑↓ Enter) "
     };
 
-    let list = List::new(items).block(
-        Block::default()
-            .title(hint)
-            .borders(Borders::ALL),
-    );
+    let list = List::new(items).block(Block::default().title(hint).borders(Borders::ALL));
     frame.render_widget(list, area);
 }
 
@@ -130,13 +125,12 @@ fn render_show_table(frame: &mut Frame, area: Rect, app: &App) {
 
     let inner = Layout::vertical([
         Constraint::Length(2), // header
-        Constraint::Min(4),   // table
+        Constraint::Min(4),    // table
         Constraint::Length(2), // hint
     ])
     .split(area);
 
-    let header = Paragraph::new(header_text)
-        .style(Style::default().fg(Color::White));
+    let header = Paragraph::new(header_text).style(Style::default().fg(Color::White));
     frame.render_widget(header, inner[0]);
 
     if app.partition_table.is_empty() {
@@ -172,12 +166,11 @@ fn render_show_table(frame: &mut Frame, area: Rect, app: &App) {
 
         let table = Table::new(rows, widths)
             .header(
-                Row::new(vec!["#", "Start", "End", "Size", "Type", "Label"])
-                    .style(
-                        Style::default()
-                            .fg(Color::Cyan)
-                            .add_modifier(Modifier::BOLD),
-                    ),
+                Row::new(vec!["#", "Start", "End", "Size", "Type", "Label"]).style(
+                    Style::default()
+                        .fg(Color::Cyan)
+                        .add_modifier(Modifier::BOLD),
+                ),
             )
             .block(Block::default().borders(Borders::ALL).title(" Partitions "));
         frame.render_widget(table, inner[1]);
@@ -245,13 +238,17 @@ fn render_input_params(frame: &mut Frame, area: Rect, app: &App) {
     let inner = Layout::vertical([
         Constraint::Length(5), // help text
         Constraint::Length(3), // input field
-        Constraint::Min(1),   // spacer
+        Constraint::Min(1),    // spacer
     ])
     .split(area);
 
     let help_widget = Paragraph::new(help)
         .style(Style::default().fg(Color::DarkGray))
-        .block(Block::default().title(format!(" {title} ")).borders(Borders::ALL));
+        .block(
+            Block::default()
+                .title(format!(" {title} "))
+                .borders(Borders::ALL),
+        );
     frame.render_widget(help_widget, inner[0]);
 
     let input_display = format!("▸ {}_", app.partition_input);
@@ -276,9 +273,7 @@ fn render_confirm(frame: &mut Frame, area: Rect, app: &App) {
             format!("Format partition: {}", app.partition_input)
         }
         Some(PartitionActionType::CreateTable) => "Create new partition table (GPT)".into(),
-        Some(PartitionActionType::Erase) => {
-            "SECURE ERASE — All data will be destroyed!".into()
-        }
+        Some(PartitionActionType::Erase) => "SECURE ERASE — All data will be destroyed!".into(),
         None => "Unknown action".into(),
     };
 
@@ -292,11 +287,9 @@ fn render_confirm(frame: &mut Frame, area: Rect, app: &App) {
         Style::default().fg(Color::Yellow)
     };
 
-    let widget = Paragraph::new(text).style(style).block(
-        Block::default()
-            .title(" Confirm ")
-            .borders(Borders::ALL),
-    );
+    let widget = Paragraph::new(text)
+        .style(style)
+        .block(Block::default().title(" Confirm ").borders(Borders::ALL));
     frame.render_widget(widget, area);
 }
 
@@ -317,16 +310,9 @@ fn render_running(frame: &mut Frame, area: Rect, app: &App) {
             pct
         );
 
-        let inner = Layout::vertical([
-            Constraint::Min(3),
-            Constraint::Length(3),
-        ])
-        .split(area);
+        let inner = Layout::vertical([Constraint::Min(3), Constraint::Length(3)]).split(area);
 
-        let msg = app
-            .status_message
-            .as_deref()
-            .unwrap_or("Working...");
+        let msg = app.status_message.as_deref().unwrap_or("Working...");
         let info = Paragraph::new(format!("  {msg}"))
             .style(Style::default().fg(Color::Yellow))
             .block(Block::default().borders(Borders::ALL).title(" Running "));
@@ -347,13 +333,10 @@ fn render_running(frame: &mut Frame, area: Rect, app: &App) {
 }
 
 fn render_done(frame: &mut Frame, area: Rect) {
-    let widget = Paragraph::new("  Operation completed successfully!\n\n  Press Enter or Esc to continue.")
-        .style(Style::default().fg(Color::Green))
-        .block(
-            Block::default()
-                .title(" Done ")
-                .borders(Borders::ALL),
-        );
+    let widget =
+        Paragraph::new("  Operation completed successfully!\n\n  Press Enter or Esc to continue.")
+            .style(Style::default().fg(Color::Green))
+            .block(Block::default().title(" Done ").borders(Borders::ALL));
     frame.render_widget(widget, area);
 }
 
@@ -362,11 +345,7 @@ fn render_failed(frame: &mut Frame, area: Rect, app: &App) {
     let text = format!("  Error: {err}\n\n  Press Enter or Esc to go back.");
     let widget = Paragraph::new(text)
         .style(Style::default().fg(Color::Red))
-        .block(
-            Block::default()
-                .title(" Failed ")
-                .borders(Borders::ALL),
-        );
+        .block(Block::default().title(" Failed ").borders(Borders::ALL));
     frame.render_widget(widget, area);
 }
 

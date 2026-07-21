@@ -34,14 +34,25 @@ impl DeviceEnumerator for WindowsEnumerator {
                 continue;
             }
 
-            let model = entry.get("Model").and_then(Value::as_str).map(ToString::to_string);
+            let model = entry
+                .get("Model")
+                .and_then(Value::as_str)
+                .map(ToString::to_string);
             let size = entry
                 .get("Size")
                 .and_then(Value::as_u64)
-                .or_else(|| entry.get("Size").and_then(Value::as_str).and_then(|v| v.parse().ok()))
+                .or_else(|| {
+                    entry
+                        .get("Size")
+                        .and_then(Value::as_str)
+                        .and_then(|v| v.parse().ok())
+                })
                 .unwrap_or(0);
             let media_type = entry.get("MediaType").and_then(Value::as_str).unwrap_or("");
-            let interface_type = entry.get("InterfaceType").and_then(Value::as_str).unwrap_or("");
+            let interface_type = entry
+                .get("InterfaceType")
+                .and_then(Value::as_str)
+                .unwrap_or("");
 
             let removable = is_removable_windows(media_type, interface_type);
             if !include_system && !removable && self.is_system_disk(&device_path) {
@@ -150,8 +161,8 @@ fn parse_json_array(output: &str) -> Result<Vec<Value>> {
         return Ok(Vec::new());
     }
 
-    let value: Value = serde_json::from_str(output)
-        .context("Failed to parse PowerShell JSON output")?;
+    let value: Value =
+        serde_json::from_str(output).context("Failed to parse PowerShell JSON output")?;
     match value {
         Value::Array(items) => Ok(items),
         Value::Object(_) => Ok(vec![value]),

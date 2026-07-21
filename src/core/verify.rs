@@ -161,4 +161,3 @@ fn verify_device_matches_image_sync(
     tracing::info!(bytes_verified = offset, "Verification passed");
     Ok(true)
 }
-

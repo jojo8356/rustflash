@@ -31,7 +31,11 @@ fn render_backup(frame: &mut Frame, app: &App) {
 
     // Title
     let title = Paragraph::new("Backup Device")
-        .style(Style::default().fg(Color::Cyan).add_modifier(Modifier::BOLD))
+        .style(
+            Style::default()
+                .fg(Color::Cyan)
+                .add_modifier(Modifier::BOLD),
+        )
         .block(Block::default().borders(Borders::BOTTOM));
     frame.render_widget(title, chunks[0]);
 
@@ -47,7 +51,9 @@ fn render_backup(frame: &mut Frame, app: &App) {
         .iter()
         .map(|(label, state)| {
             let style = if *state == app.backup_state {
-                Style::default().fg(Color::Cyan).add_modifier(Modifier::BOLD)
+                Style::default()
+                    .fg(Color::Cyan)
+                    .add_modifier(Modifier::BOLD)
             } else if backup_step_order(*state) < backup_step_order(app.backup_state) {
                 Style::default().fg(Color::Green)
             } else {
@@ -62,7 +68,9 @@ fn render_backup(frame: &mut Frame, app: &App) {
 
     // Content
     match app.backup_state {
-        BackupState::SelectSource => render_device_select(frame, chunks[2], app, "Select Source Device"),
+        BackupState::SelectSource => {
+            render_device_select(frame, chunks[2], app, "Select Source Device")
+        }
         BackupState::SelectOutput => render_output_select(frame, chunks[2], app),
         BackupState::Confirm => render_backup_confirm(frame, chunks[2], app),
         BackupState::Running => {
@@ -183,7 +191,11 @@ fn render_restore(frame: &mut Frame, app: &App) {
 
     // Title
     let title = Paragraph::new("Restore Backup")
-        .style(Style::default().fg(Color::Cyan).add_modifier(Modifier::BOLD))
+        .style(
+            Style::default()
+                .fg(Color::Cyan)
+                .add_modifier(Modifier::BOLD),
+        )
         .block(Block::default().borders(Borders::BOTTOM));
     frame.render_widget(title, chunks[0]);
 
@@ -198,7 +210,9 @@ fn render_restore(frame: &mut Frame, app: &App) {
         .iter()
         .map(|(label, state)| {
             let style = if *state == app.restore_state {
-                Style::default().fg(Color::Cyan).add_modifier(Modifier::BOLD)
+                Style::default()
+                    .fg(Color::Cyan)
+                    .add_modifier(Modifier::BOLD)
             } else if restore_step_order(*state) < restore_step_order(app.restore_state) {
                 Style::default().fg(Color::Green)
             } else {

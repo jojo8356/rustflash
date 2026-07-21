@@ -43,9 +43,7 @@ async fn test_flash_raw_image_to_file() {
     let flasher = rustflash::core::flasher::Flasher::new(config);
     let (tx, mut rx) = tokio::sync::mpsc::channel(64);
 
-    tokio::spawn(async move {
-        while rx.recv().await.is_some() {}
-    });
+    tokio::spawn(async move { while rx.recv().await.is_some() {} });
 
     flasher
         .flash(img.path(), target.path().to_str().unwrap(), tx)
@@ -77,9 +75,7 @@ async fn test_flash_with_verification() {
     let flasher = rustflash::core::flasher::Flasher::new(config);
     let (tx, mut rx) = tokio::sync::mpsc::channel(64);
 
-    tokio::spawn(async move {
-        while rx.recv().await.is_some() {}
-    });
+    tokio::spawn(async move { while rx.recv().await.is_some() {} });
 
     flasher
         .flash(img.path(), target.path().to_str().unwrap(), tx)
@@ -89,8 +85,8 @@ async fn test_flash_with_verification() {
 
 #[tokio::test]
 async fn test_flash_gzip_image_to_file() {
-    use flate2::write::GzEncoder;
     use flate2::Compression;
+    use flate2::write::GzEncoder;
 
     let test_data = vec![0xEFu8; 512 * 1024];
 
@@ -121,9 +117,7 @@ async fn test_flash_gzip_image_to_file() {
     let flasher = rustflash::core::flasher::Flasher::new(config);
     let (tx, mut rx) = tokio::sync::mpsc::channel(64);
 
-    tokio::spawn(async move {
-        while rx.recv().await.is_some() {}
-    });
+    tokio::spawn(async move { while rx.recv().await.is_some() {} });
 
     flasher
         .flash(img.path(), target.path().to_str().unwrap(), tx)
@@ -190,10 +184,7 @@ async fn test_flash_zip_image_to_file() {
         writer.finish().unwrap();
     }
 
-    let mut img = tempfile::Builder::new()
-        .suffix(".zip")
-        .tempfile()
-        .unwrap();
+    let mut img = tempfile::Builder::new().suffix(".zip").tempfile().unwrap();
     img.write_all(&zip_buf).unwrap();
     img.flush().unwrap();
 
@@ -211,9 +202,7 @@ async fn test_flash_zip_image_to_file() {
     let flasher = rustflash::core::flasher::Flasher::new(config);
     let (tx, mut rx) = tokio::sync::mpsc::channel(64);
 
-    tokio::spawn(async move {
-        while rx.recv().await.is_some() {}
-    });
+    tokio::spawn(async move { while rx.recv().await.is_some() {} });
 
     flasher
         .flash(img.path(), target.path().to_str().unwrap(), tx)
@@ -250,9 +239,7 @@ async fn test_multi_flash_parallel() {
     let flasher = rustflash::core::flasher::Flasher::new(config);
     let (tx, mut rx) = tokio::sync::mpsc::channel(128);
 
-    tokio::spawn(async move {
-        while rx.recv().await.is_some() {}
-    });
+    tokio::spawn(async move { while rx.recv().await.is_some() {} });
 
     let targets = vec![
         target1.path().to_str().unwrap().to_string(),
@@ -297,9 +284,7 @@ async fn test_clone_raw_file_to_file() {
     let cloner = rustflash::core::cloner::Cloner::new(config);
     let (tx, mut rx) = tokio::sync::mpsc::channel(64);
 
-    tokio::spawn(async move {
-        while rx.recv().await.is_some() {}
-    });
+    tokio::spawn(async move { while rx.recv().await.is_some() {} });
 
     cloner
         .clone_device(
@@ -338,9 +323,7 @@ async fn test_clone_with_gzip_compression() {
     let cloner = rustflash::core::cloner::Cloner::new(config);
     let (tx, mut rx) = tokio::sync::mpsc::channel(64);
 
-    tokio::spawn(async move {
-        while rx.recv().await.is_some() {}
-    });
+    tokio::spawn(async move { while rx.recv().await.is_some() {} });
 
     cloner
         .clone_device(
@@ -361,7 +344,7 @@ async fn test_clone_with_gzip_compression() {
 
 #[test]
 fn test_decompress_detect_format() {
-    use rustflash::io::decompress::{detect_format, ImageFormat};
+    use rustflash::io::decompress::{ImageFormat, detect_format};
     use std::path::Path;
 
     assert_eq!(detect_format(Path::new("test.img")), ImageFormat::Raw);

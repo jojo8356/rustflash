@@ -141,12 +141,33 @@ mod tests {
 
     #[test]
     fn detects_known_image_formats() {
-        assert_eq!(detect_format(Path::new("disk.img")), super::ImageFormat::Raw);
-        assert_eq!(detect_format(Path::new("os.img.gz")), super::ImageFormat::Gzip);
-        assert_eq!(detect_format(Path::new("archive.xz")), super::ImageFormat::Xz);
-        assert_eq!(detect_format(Path::new("archive.img.zst")), super::ImageFormat::Zstd);
-        assert_eq!(detect_format(Path::new("backup.img.bz2")), super::ImageFormat::Bzip2);
-        assert_eq!(detect_format(Path::new("archive.zip")), super::ImageFormat::Zip);
-        assert_eq!(detect_format(Path::new("IMAGE.IMG.GZ")), super::ImageFormat::Gzip);
+        assert_eq!(
+            detect_format(Path::new("disk.img")),
+            super::ImageFormat::Raw
+        );
+        assert_eq!(
+            detect_format(Path::new("os.img.gz")),
+            super::ImageFormat::Gzip
+        );
+        assert_eq!(
+            detect_format(Path::new("archive.xz")),
+            super::ImageFormat::Xz
+        );
+        assert_eq!(
+            detect_format(Path::new("archive.img.zst")),
+            super::ImageFormat::Zstd
+        );
+        assert_eq!(
+            detect_format(Path::new("backup.img.bz2")),
+            super::ImageFormat::Bzip2
+        );
+        assert_eq!(
+            detect_format(Path::new("archive.zip")),
+            super::ImageFormat::Zip
+        );
+        assert_eq!(
+            detect_format(Path::new("IMAGE.IMG.GZ")),
+            super::ImageFormat::Gzip
+        );
     }
 }

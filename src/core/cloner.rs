@@ -158,43 +158,26 @@ impl Cloner {
                     w
                 }
                 Some(CompressionType::Gzip) => {
-                    let mut encoder = flate2::write::GzEncoder::new(
-                        dest_file,
-                        flate2::Compression::default(),
-                    );
-                    let w = copy_blocks(
-                        &mut source_file,
-                        &mut encoder,
-                        &mut buf,
-                        total_bytes,
-                        &ptx,
-                    )?;
+                    let mut encoder =
+                        flate2::write::GzEncoder::new(dest_file, flate2::Compression::default());
+                    let w =
+                        copy_blocks(&mut source_file, &mut encoder, &mut buf, total_bytes, &ptx)?;
                     let inner = encoder.finish()?;
                     inner.sync_all()?;
                     w
                 }
                 Some(CompressionType::Xz) => {
                     let mut encoder = xz2::write::XzEncoder::new(dest_file, 6);
-                    let w = copy_blocks(
-                        &mut source_file,
-                        &mut encoder,
-                        &mut buf,
-                        total_bytes,
-                        &ptx,
-                    )?;
+                    let w =
+                        copy_blocks(&mut source_file, &mut encoder, &mut buf, total_bytes, &ptx)?;
                     let inner = encoder.finish()?;
                     inner.sync_all()?;
                     w
                 }
                 Some(CompressionType::Zstd) => {
                     let mut encoder = zstd::stream::write::Encoder::new(dest_file, 3)?;
-                    let w = copy_blocks(
-                        &mut source_file,
-                        &mut encoder,
-                        &mut buf,
-                        total_bytes,
-                        &ptx,
-                    )?;
+                    let w =
+                        copy_blocks(&mut source_file, &mut encoder, &mut buf, total_bytes, &ptx)?;
                     let inner = encoder.finish()?;
                     inner.sync_all()?;
                     w

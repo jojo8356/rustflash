@@ -27,23 +27,25 @@ impl EventHandler {
         let (tx, rx) = mpsc::channel();
         let event_tx = tx.clone();
 
-        thread::spawn(move || loop {
-            if event::poll(tick_rate).unwrap_or(false) {
-                match event::read() {
-                    Ok(Event::Key(key)) => {
-                        if event_tx.send(AppEvent::Key(key)).is_err() {
-                            return;
+        thread::spawn(move || {
+            loop {
+                if event::poll(tick_rate).unwrap_or(false) {
+                    match event::read() {
+                        Ok(Event::Key(key)) => {
+                            if event_tx.send(AppEvent::Key(key)).is_err() {
+                                return;
+                            }
                         }
-                    }
-                    Ok(Event::Resize(w, h)) => {
-                        if event_tx.send(AppEvent::Resize(w, h)).is_err() {
-                            return;
+                        Ok(Event::Resize(w, h)) => {
+                            if event_tx.send(AppEvent::Resize(w, h)).is_err() {
+                                return;
+                            }
                         }
+                        _ => {}
                     }
-                    _ => {}
+                } else if event_tx.send(AppEvent::Tick).is_err() {
+                    return;
                 }
-            } else if event_tx.send(AppEvent::Tick).is_err() {
-                return;
             }
         });
 

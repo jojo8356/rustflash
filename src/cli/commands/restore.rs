@@ -41,15 +41,25 @@ pub async fn execute(args: &RestoreArgs) -> anyhow::Result<()> {
     let header = BackupEngine::read_header(&args.input)?;
     println!();
     println!("  Backup file:   {}", args.input);
-    println!("  Source device:  {}", header.source_device.as_deref().unwrap_or("unknown"));
+    println!(
+        "  Source device:  {}",
+        header.source_device.as_deref().unwrap_or("unknown")
+    );
     println!("  Created:       {}", header.created);
     println!(
         "  Source size:    {}",
         bytesize::ByteSize(header.source_size)
     );
     println!("  Compression:   {}", header.compression);
-    println!("  Block size:    {}", bytesize::ByteSize(header.block_size as u64));
-    println!("  Checksum:      {}:{}", header.hash_algorithm, &header.checksum[..16.min(header.checksum.len())]);
+    println!(
+        "  Block size:    {}",
+        bytesize::ByteSize(header.block_size as u64)
+    );
+    println!(
+        "  Checksum:      {}:{}",
+        header.hash_algorithm,
+        &header.checksum[..16.min(header.checksum.len())]
+    );
 
     if args.dry_run {
         println!();
@@ -91,8 +101,7 @@ pub async fn execute(args: &RestoreArgs) -> anyhow::Result<()> {
     let input = args.input.clone();
     let target = args.target.clone();
 
-    let handle =
-        tokio::spawn(async move { engine.restore_backup(&input, &target, tx).await });
+    let handle = tokio::spawn(async move { engine.restore_backup(&input, &target, tx).await });
 
     let bar = ProgressBar::new(0);
     bar.set_style(

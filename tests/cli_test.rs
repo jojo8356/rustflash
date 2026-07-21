@@ -24,10 +24,7 @@ fn test_version_output() {
 
 #[test]
 fn test_list_command() {
-    cargo_bin_cmd!("rustflash")
-        .arg("list")
-        .assert()
-        .success();
+    cargo_bin_cmd!("rustflash").arg("list").assert().success();
 }
 
 #[test]
