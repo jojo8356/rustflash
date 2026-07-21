@@ -192,7 +192,7 @@ impl BackupEngine {
             // Write header length
             let header_len_bytes = (header_json_len as u32).to_le_bytes();
             writer.write_all(&header_len_bytes)?;
-            global_hasher.update(&header_len_bytes);
+            global_hasher.update(header_len_bytes);
 
             // Write header JSON
             writer.write_all(&header_json)?;
@@ -223,7 +223,7 @@ impl BackupEngine {
                 let chunk_len_bytes = chunk_len.to_le_bytes();
                 writer.write_all(&chunk_len_bytes)?;
                 writer.write_all(&compressed)?;
-                global_hasher.update(&chunk_len_bytes);
+                global_hasher.update(chunk_len_bytes);
                 global_hasher.update(&compressed);
 
                 bytes_processed += n as u64;
@@ -237,7 +237,7 @@ impl BackupEngine {
             // Write zero sentinel
             let sentinel = 0u32.to_le_bytes();
             writer.write_all(&sentinel)?;
-            global_hasher.update(&sentinel);
+            global_hasher.update(sentinel);
 
             // Flush the BufWriter to get the inner file
             writer.flush()?;

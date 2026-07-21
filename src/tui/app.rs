@@ -327,7 +327,9 @@ impl App {
         }
         (self.current_speed, 0.0, bytes)
     }
+}
 
+impl App {
     /// Fonction publique `tick`
     pub fn tick(&mut self) {
         // Flash
@@ -1172,11 +1174,11 @@ impl App {
             PartitionState::Done | PartitionState::Failed => match key.code {
                 KeyCode::Esc | KeyCode::Enter => {
                     // Re-read partition table to show updated state
-                    if let Some(ref dev) = self.partition_device.clone() {
-                        if let Ok((tt, parts)) = PartitionManager::read_table(dev) {
-                            self.partition_table_type = Some(tt);
-                            self.partition_table = parts;
-                        }
+                    if let Some(ref dev) = self.partition_device
+                        && let Ok((tt, parts)) = PartitionManager::read_table(dev)
+                    {
+                        self.partition_table_type = Some(tt);
+                        self.partition_table = parts;
                     }
                     self.partition_state = PartitionState::ShowTable;
                     self.partition_error = None;
@@ -1224,7 +1226,7 @@ impl App {
                 let fs_str = parts.first().copied().unwrap_or("ext4");
                 let size_str = parts.get(1).copied().unwrap_or("remaining");
                 let label = parts.get(2).copied();
-                let fs = FsType::from_str(fs_str);
+                let fs = FsType::parse(fs_str);
 
                 match crate::core::partition::parse_size(size_str) {
                     Ok(size_bytes) => {
@@ -1273,7 +1275,7 @@ impl App {
                     self.partition_error = Some("Invalid partition number.".into());
                     return;
                 }
-                let fs = FsType::from_str(fs_str);
+                let fs = FsType::parse(fs_str);
                 match PartitionManager::format_partition(&device, num, fs, None) {
                     Ok(()) => {
                         self.partition_state = PartitionState::Done;
@@ -1354,5 +1356,11 @@ impl App {
         if let Ok(devs) = enumerator.list_devices(false) {
             self.devices = devs;
         }
+    }
+}
+
+impl Default for App {
+    fn default() -> Self {
+        Self::new()
     }
 }

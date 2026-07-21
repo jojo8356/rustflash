@@ -25,10 +25,7 @@ pub async fn execute(args: &ListArgs) -> anyhow::Result<()> {
             return Ok(());
         }
 
-        println!(
-            "{:<15} {:<12} {:<20} {}",
-            "DEVICE", "SIZE", "MODEL", "MOUNTPOINT"
-        );
+        println!("{:<15} {:<12} {:<20} MOUNTPOINT", "DEVICE", "SIZE", "MODEL");
         println!("{}", "-".repeat(60));
         for dev in &devices {
             println!(

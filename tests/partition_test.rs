@@ -53,15 +53,15 @@ fn test_parse_size_invalid() {
 #[test]
 fn test_fs_type_roundtrip() {
     for name in &["ext4", "fat32", "ntfs", "exfat", "swap"] {
-        let fs = FsType::from_str(name);
+        let fs = FsType::parse(name);
         assert_ne!(fs, FsType::Unknown, "Failed for {name}");
-        assert_eq!(FsType::from_str(fs.as_str()), fs);
+        assert_eq!(FsType::parse(fs.as_str()), fs);
     }
 }
 
 #[test]
 fn test_fs_type_unknown() {
-    assert_eq!(FsType::from_str("btrfs"), FsType::Unknown);
+    assert_eq!(FsType::parse("btrfs"), FsType::Unknown);
 }
 
 #[test]

@@ -90,11 +90,11 @@ impl FileBrowser {
 
     /// Fonction publique `enter_selected`
     pub fn enter_selected(&mut self) {
-        if let Some(entry) = self.entries.get(self.selected) {
-            if entry.is_dir {
-                self.current_dir = entry.path.clone();
-                self.refresh();
-            }
+        if let Some(entry) = self.entries.get(self.selected)
+            && entry.is_dir
+        {
+            self.current_dir = entry.path.clone();
+            self.refresh();
         }
     }
 

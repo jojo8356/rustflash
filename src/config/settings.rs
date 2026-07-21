@@ -2,7 +2,7 @@ use std::path::PathBuf;
 
 use serde::{Deserialize, Serialize};
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
 /// Structure publique `AppConfig`
 pub struct AppConfig {
     #[serde(default)]
@@ -119,18 +119,6 @@ fn default_compression_level() -> u32 {
 }
 fn default_log_level() -> String {
     "info".into()
-}
-
-impl Default for AppConfig {
-    fn default() -> Self {
-        Self {
-            general: GeneralConfig::default(),
-            flash: FlashConfig::default(),
-            network: NetworkConfig::default(),
-            backup: BackupConfig::default(),
-            logging: LoggingConfig::default(),
-        }
-    }
 }
 
 impl Default for GeneralConfig {

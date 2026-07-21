@@ -100,12 +100,10 @@ fn open_zip_image(file: File) -> anyhow::Result<Box<dyn Read + Send>> {
             .iter()
             .any(|ext| name.ends_with(&format!(".{ext}")));
 
-        if has_image_ext {
-            if best_image.map_or(true, |(_, s)| size > s) {
-                best_image = Some((i, size));
-            }
+        if has_image_ext && best_image.is_none_or(|(_, s)| size > s) {
+            best_image = Some((i, size));
         }
-        if best_any.map_or(true, |(_, s)| size > s) {
+        if best_any.is_none_or(|(_, s)| size > s) {
             best_any = Some((i, size));
         }
     }

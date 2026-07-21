@@ -93,10 +93,11 @@ impl DeviceEnumerator for LinuxEnumerator {
 
         for line in mounts.lines() {
             let parts: Vec<&str> = line.split_whitespace().collect();
-            if parts.len() >= 2 && parts[0].starts_with(device_path) {
-                if system_mounts.contains(&parts[1]) {
-                    return true;
-                }
+            if parts.len() >= 2
+                && parts[0].starts_with(device_path)
+                && system_mounts.contains(&parts[1])
+            {
+                return true;
             }
         }
 

@@ -110,7 +110,7 @@ pub async fn execute(args: &PartitionArgs) -> anyhow::Result<()> {
             label,
             flag,
         } => {
-            let fs = FsType::from_str(fs_type);
+            let fs = FsType::parse(fs_type);
             let size_bytes = parse_size(size)?;
             let flags: Vec<&str> = flag
                 .as_deref()
@@ -161,7 +161,7 @@ pub async fn execute(args: &PartitionArgs) -> anyhow::Result<()> {
             fs_type,
             label,
         } => {
-            let fs = FsType::from_str(fs_type);
+            let fs = FsType::parse(fs_type);
             println!(
                 "Formatting partition {} as {} on {}...",
                 number, fs_type, args.device
@@ -255,8 +255,8 @@ fn cmd_show(device: &str) -> anyhow::Result<()> {
         println!("  No partitions found.");
     } else {
         println!(
-            "  {:>3}  {:>12}  {:>12}  {:>10}  {:>8}  {}",
-            "#", "Start", "End", "Size", "Type", "Label"
+            "  {:>3}  {:>12}  {:>12}  {:>10}  {:>8}  Label",
+            "#", "Start", "End", "Size", "Type"
         );
         println!("  {}", "-".repeat(70));
 

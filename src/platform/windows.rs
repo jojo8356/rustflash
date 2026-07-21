@@ -171,9 +171,7 @@ fn parse_json_array(output: &str) -> Result<Vec<Value>> {
 }
 
 fn get_windows_mount_point(device_path: &str) -> Option<String> {
-    let Some(index) = disk_index(device_path) else {
-        return None;
-    };
+    let index = disk_index(device_path)?;
 
     let script = format!(
         "Get-Partition -DiskNumber {index} | Get-Volume | Where-Object {{ $_.DriveLetter }} | ForEach-Object {{ $_.DriveLetter }}"

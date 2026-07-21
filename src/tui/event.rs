@@ -31,15 +31,13 @@ impl EventHandler {
             loop {
                 if event::poll(tick_rate).unwrap_or(false) {
                     match event::read() {
-                        Ok(Event::Key(key)) => {
-                            if event_tx.send(AppEvent::Key(key)).is_err() {
-                                return;
-                            }
+                        Ok(Event::Key(key)) if event_tx.send(AppEvent::Key(key)).is_err() => {
+                            return;
                         }
-                        Ok(Event::Resize(w, h)) => {
-                            if event_tx.send(AppEvent::Resize(w, h)).is_err() {
-                                return;
-                            }
+                        Ok(Event::Resize(w, h))
+                            if event_tx.send(AppEvent::Resize(w, h)).is_err() =>
+                        {
+                            return;
                         }
                         _ => {}
                     }

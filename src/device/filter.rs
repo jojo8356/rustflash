@@ -34,7 +34,7 @@ mod tests {
         vec![
             DeviceInfo {
                 path: "sda".into(),
-                size: 1_u64 * 1024 * 1024 * 1024,
+                size: 1024 * 1024 * 1024,
                 model: Some("System SSD".into()),
                 removable: false,
                 mount_point: None,

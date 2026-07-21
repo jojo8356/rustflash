@@ -265,7 +265,7 @@ fn update_multi_bar(bar: &ProgressBar, p: &FlashProgress) {
 
 async fn download_image_with_progress(url: &str) -> anyhow::Result<PathBuf> {
     let temp_dir = std::env::temp_dir();
-    let filename = url.split('/').last().unwrap_or("image.img");
+    let filename = url.split('/').next_back().unwrap_or("image.img");
     let download_path = temp_dir.join(filename);
 
     println!("Downloading image to {}...", download_path.display());

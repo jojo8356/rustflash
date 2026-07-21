@@ -1,5 +1,6 @@
 use std::collections::BTreeMap;
 use std::io::{Read, Seek, SeekFrom, Write};
+use std::str::FromStr;
 
 use serde::{Deserialize, Serialize};
 use tokio::sync::mpsc;
@@ -35,8 +36,8 @@ pub enum FsType {
 }
 
 impl FsType {
-    /// Fonction publique `from_str`
-    pub fn from_str(s: &str) -> Self {
+    /// Fonction publique `parse`
+    pub fn parse(s: &str) -> Self {
         match s.to_lowercase().as_str() {
             "ext4" => Self::Ext4,
             "fat32" | "vfat" => Self::Fat32,
@@ -60,6 +61,17 @@ impl FsType {
             Self::Hfs => "hfs+",
             Self::Swap => "swap",
             Self::Unknown => "unknown",
+        }
+    }
+}
+
+impl FromStr for FsType {
+    type Err = ();
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match Self::parse(s) {
+            Self::Unknown => Err(()),
+            fs => Ok(fs),
         }
     }
 }
