@@ -1,19 +1,40 @@
-name: tests
+name: CI CD
 
 on:
   pull_request:
   push:
     branches: [ main ]
+    tags:
+      - "v*"
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
-  test:
-    runs-on: ubuntu-latest
+  build:
+    name: Build (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            artifact_name: rustflash-linux-x86_64
+            binary_name: rustflash
+            package_ext: .tar.gz
+          - os: macos-latest
+            artifact_name: rustflash-macos-x86_64
+            binary_name: rustflash
+            package_ext: .tar.gz
+          - os: windows-latest
+            artifact_name: rustflash-windows-x86_64
+            binary_name: rustflash.exe
+            package_ext: .zip
     steps:
       - uses: actions/checkout@v4
+
       - uses: dtolnay/rust-toolchain@stable
+
       - name: Cache cargo registry
         uses: actions/cache@v4
         with:
@@ -24,11 +45,62 @@ jobs:
           key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
           restore-keys: |
             ${{ runner.os }}-cargo-
+
       - name: Install dependencies
         run: cargo fetch
+
       - name: Format check
         run: cargo fmt --all -- --check
+
       - name: Unit + integration tests
         run: cargo test --all-features
-      - name: Clippy (non-fatal)
-        run: cargo clippy -- -D warnings
+
+      - name: Clippy
+        run: cargo clippy --all-features -- -D warnings
+
+      - name: Build release
+        run: cargo build --release --all-features
+
+      - name: Prepare Linux / macOS artifact
+        if: runner.os != 'Windows'
+        shell: bash
+        run: |
+          mkdir -p dist
+          cp target/release/${{ matrix.binary_name }} dist/${{ matrix.binary_name }}
+          tar -czf dist/${{ matrix.artifact_name }}${{ matrix.package_ext }} -C dist ${{ matrix.binary_name }}
+          echo "${{ matrix.artifact_name }}${{ matrix.package_ext }}" > dist/artifact-name.txt
+
+      - name: Prepare Windows artifact
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force dist | Out-Null
+          Copy-Item target/release/${{ matrix.binary_name }} dist/${{ matrix.binary_name }}
+          Compress-Archive -Path dist/${{ matrix.binary_name }} -DestinationPath dist/${{ matrix.artifact_name }}${{ matrix.package_ext }}
+          Set-Content -Path dist/artifact-name.txt -Value "${{ matrix.artifact_name }}${{ matrix.package_ext }}"
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact_name }}
+          path: |
+            dist/${{ matrix.artifact_name }}${{ matrix.package_ext }}
+            dist/artifact-name.txt
+
+  release:
+    name: Publish artifacts
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download all build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: Publish GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: artifacts/**/*
