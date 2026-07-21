@@ -5,15 +5,18 @@ use tokio::sync::mpsc;
 use crate::core::partition::{EraseMethod, FsType, PartitionManager, TableType, parse_size};
 
 #[derive(Args)]
+/// Structure publique `PartitionArgs`
 pub struct PartitionArgs {
     /// Target device
     pub device: String,
 
     #[command(subcommand)]
+    /// Champ public `action` de la structure correspondante.
     pub action: PartitionAction,
 }
 
 #[derive(Subcommand)]
+/// Énumération publique `PartitionAction`
 pub enum PartitionAction {
     /// Create a new partition table (gpt or mbr)
     Create {
@@ -74,6 +77,7 @@ pub enum PartitionAction {
     },
 }
 
+/// Fonction publique `execute`
 pub async fn execute(args: &PartitionArgs) -> anyhow::Result<()> {
     tracing::info!(device = %args.device, "Starting partition operation");
 

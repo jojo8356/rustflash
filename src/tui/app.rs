@@ -14,138 +14,229 @@ use crate::device::detect::DeviceInfo;
 use crate::tui::ui::file_browser::FileBrowser;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
+/// Énumération publique `Screen`
 pub enum Screen {
+    /// Variante d'énumération `Home` du type énuméré.
     Home,
+    /// Variante d'énumération `Flash` du type énuméré.
     Flash,
+    /// Variante d'énumération `Clone` du type énuméré.
     Clone,
+    /// Variante d'énumération `Backup` du type énuméré.
     Backup,
+    /// Variante d'énumération `Restore` du type énuméré.
     Restore,
+    /// Variante d'énumération `Partition` du type énuméré.
     Partition,
+    /// Variante d'énumération `Settings` du type énuméré.
     Settings,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
+/// Énumération publique `FlashState`
 pub enum FlashState {
+    /// Variante d'énumération `SelectImage` du type énuméré.
     SelectImage,
+    /// Variante d'énumération `SelectTarget` du type énuméré.
     SelectTarget,
+    /// Variante d'énumération `Confirm` du type énuméré.
     Confirm,
+    /// Variante d'énumération `Writing` du type énuméré.
     Writing,
+    /// Variante d'énumération `Verifying` du type énuméré.
     Verifying,
+    /// Variante d'énumération `Done` du type énuméré.
     Done,
+    /// Variante d'énumération `Failed` du type énuméré.
     Failed,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
+/// Énumération publique `CloneState`
 pub enum CloneState {
+    /// Variante d'énumération `SelectSource` du type énuméré.
     SelectSource,
+    /// Variante d'énumération `SelectDest` du type énuméré.
     SelectDest,
+    /// Variante d'énumération `Confirm` du type énuméré.
     Confirm,
+    /// Variante d'énumération `Copying` du type énuméré.
     Copying,
+    /// Variante d'énumération `Verifying` du type énuméré.
     Verifying,
+    /// Variante d'énumération `Done` du type énuméré.
     Done,
+    /// Variante d'énumération `Failed` du type énuméré.
     Failed,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
+/// Énumération publique `BackupState`
 pub enum BackupState {
+    /// Variante d'énumération `SelectSource` du type énuméré.
     SelectSource,
+    /// Variante d'énumération `SelectOutput` du type énuméré.
     SelectOutput,
+    /// Variante d'énumération `Confirm` du type énuméré.
     Confirm,
+    /// Variante d'énumération `Running` du type énuméré.
     Running,
+    /// Variante d'énumération `Done` du type énuméré.
     Done,
+    /// Variante d'énumération `Failed` du type énuméré.
     Failed,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
+/// Énumération publique `RestoreState`
 pub enum RestoreState {
+    /// Variante d'énumération `SelectInput` du type énuméré.
     SelectInput,
+    /// Variante d'énumération `ShowHeader` du type énuméré.
     ShowHeader,
+    /// Variante d'énumération `SelectTarget` du type énuméré.
     SelectTarget,
+    /// Variante d'énumération `Confirm` du type énuméré.
     Confirm,
+    /// Variante d'énumération `Running` du type énuméré.
     Running,
+    /// Variante d'énumération `Done` du type énuméré.
     Done,
+    /// Variante d'énumération `Failed` du type énuméré.
     Failed,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
+/// Énumération publique `PartitionState`
 pub enum PartitionState {
+    /// Variante d'énumération `SelectDevice` du type énuméré.
     SelectDevice,
+    /// Variante d'énumération `ShowTable` du type énuméré.
     ShowTable,
+    /// Variante d'énumération `SelectAction` du type énuméré.
     SelectAction,
+    /// Variante d'énumération `InputParams` du type énuméré.
     InputParams,
+    /// Variante d'énumération `Confirm` du type énuméré.
     Confirm,
+    /// Variante d'énumération `Running` du type énuméré.
     Running,
+    /// Variante d'énumération `Done` du type énuméré.
     Done,
+    /// Variante d'énumération `Failed` du type énuméré.
     Failed,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
+/// Énumération publique `PartitionActionType`
 pub enum PartitionActionType {
+    /// Variante d'énumération `Add` du type énuméré.
     Add,
+    /// Variante d'énumération `Delete` du type énuméré.
     Delete,
+    /// Variante d'énumération `Format` du type énuméré.
     Format,
+    /// Variante d'énumération `CreateTable` du type énuméré.
     CreateTable,
+    /// Variante d'énumération `Erase` du type énuméré.
     Erase,
 }
 
+/// Structure publique `OperationProgress`
 pub struct OperationProgress {
+    /// Champ public `bytes_written` de la structure correspondante.
     pub bytes_written: u64,
+    /// Champ public `total_bytes` de la structure correspondante.
     pub total_bytes: u64,
+    /// Champ public `speed_bytes_per_sec` de la structure correspondante.
     pub speed_bytes_per_sec: f64,
+    /// Champ public `eta_seconds` de la structure correspondante.
     pub eta_seconds: f64,
 }
 
+/// Structure publique `App`
 pub struct App {
+    /// Champ public `screen` de la structure correspondante.
     pub screen: Screen,
+    /// Champ public `devices` de la structure correspondante.
     pub devices: Vec<DeviceInfo>,
+    /// Champ public `selected_index` de la structure correspondante.
     pub selected_index: usize,
+    /// Champ public `status_message` de la structure correspondante.
     pub status_message: Option<String>,
+    /// Champ public `file_browser` de la structure correspondante.
     pub file_browser: Option<FileBrowser>,
 
-    // Flash
+    /// État global du flux de flash actif.
     pub flash_state: FlashState,
+    /// Champ public `progress` de la structure correspondante.
     pub progress: Option<OperationProgress>,
+    /// Champ public `selected_image` de la structure correspondante.
     pub selected_image: Option<PathBuf>,
+    /// Champ public `selected_target` de la structure correspondante.
     pub selected_target: Option<String>,
+    /// Champ public `flash_error` de la structure correspondante.
     pub flash_error: Option<String>,
     progress_rx: Option<mpsc::Receiver<FlashProgress>>,
     flash_start_time: Option<Instant>,
 
-    // Clone
+    /// État global du flux de clone actif.
     pub clone_state: CloneState,
+    /// Champ public `clone_source` de la structure correspondante.
     pub clone_source: Option<String>,
+    /// Champ public `clone_dest` de la structure correspondante.
     pub clone_dest: Option<PathBuf>,
+    /// Champ public `clone_error` de la structure correspondante.
     pub clone_error: Option<String>,
+    /// Champ public `clone_progress` de la structure correspondante.
     pub clone_progress: Option<OperationProgress>,
     clone_progress_rx: Option<mpsc::Receiver<CloneProgress>>,
 
-    // Backup
+    /// État global du flux de backup actif.
     pub backup_state: BackupState,
+    /// Champ public `backup_source` de la structure correspondante.
     pub backup_source: Option<String>,
+    /// Champ public `backup_output` de la structure correspondante.
     pub backup_output: Option<PathBuf>,
+    /// Champ public `backup_error` de la structure correspondante.
     pub backup_error: Option<String>,
+    /// Champ public `backup_progress` de la structure correspondante.
     pub backup_progress: Option<OperationProgress>,
     backup_progress_rx: Option<mpsc::Receiver<BackupProgress>>,
 
-    // Restore
+    /// État global du flux de restauration actif.
     pub restore_state: RestoreState,
+    /// Champ public `restore_input` de la structure correspondante.
     pub restore_input: Option<PathBuf>,
+    /// Champ public `restore_target` de la structure correspondante.
     pub restore_target: Option<String>,
+    /// Champ public `restore_header` de la structure correspondante.
     pub restore_header: Option<BackupHeader>,
+    /// Champ public `restore_error` de la structure correspondante.
     pub restore_error: Option<String>,
+    /// Champ public `restore_progress` de la structure correspondante.
     pub restore_progress: Option<OperationProgress>,
     restore_progress_rx: Option<mpsc::Receiver<BackupProgress>>,
 
-    // Partition
+    /// État global du flux de partition actif.
     pub partition_state: PartitionState,
+    /// Champ public `partition_device` de la structure correspondante.
     pub partition_device: Option<String>,
+    /// Champ public `partition_table` de la structure correspondante.
     pub partition_table: Vec<PartitionInfo>,
+    /// Champ public `partition_table_type` de la structure correspondante.
     pub partition_table_type: Option<TableType>,
+    /// Champ public `partition_action` de la structure correspondante.
     pub partition_action: Option<PartitionActionType>,
+    /// Champ public `partition_error` de la structure correspondante.
     pub partition_error: Option<String>,
+    /// Champ public `partition_selected` de la structure correspondante.
     pub partition_selected: usize,
+    /// Champ public `partition_input` de la structure correspondante.
     pub partition_input: String,
+    /// Champ public `partition_input_field` de la structure correspondante.
     pub partition_input_field: u8, // 0=type, 1=size, 2=label
+    /// Champ public `partition_progress` de la structure correspondante.
     pub partition_progress: Option<OperationProgress>,
     partition_erase_rx: Option<mpsc::Receiver<EraseProgress>>,
 
@@ -156,6 +247,7 @@ pub struct App {
 }
 
 impl App {
+    /// Fonction publique `new`
     pub fn new() -> Self {
         Self {
             screen: Screen::Home,
@@ -236,6 +328,7 @@ impl App {
         (self.current_speed, 0.0, bytes)
     }
 
+    /// Fonction publique `tick`
     pub fn tick(&mut self) {
         // Flash
         let mut flash_updates = Vec::new();
@@ -483,6 +576,7 @@ impl App {
 
     // ── Start operations ──────────────────────────────────────────
 
+    /// Fonction publique `start_flash`
     pub fn start_flash(&mut self) {
         let image = match self.selected_image {
             Some(ref p) => p.clone(),
@@ -523,6 +617,7 @@ impl App {
         });
     }
 
+    /// Fonction publique `start_clone`
     pub fn start_clone(&mut self) {
         let src = match self.clone_source {
             Some(ref s) => s.clone(),
@@ -554,6 +649,7 @@ impl App {
         });
     }
 
+    /// Fonction publique `start_backup`
     pub fn start_backup(&mut self) {
         let src = match self.backup_source {
             Some(ref s) => s.clone(),
@@ -585,6 +681,7 @@ impl App {
         });
     }
 
+    /// Fonction publique `start_restore`
     pub fn start_restore(&mut self) {
         let inp = match self.restore_input {
             Some(ref i) => i.to_string_lossy().to_string(),
@@ -619,6 +716,7 @@ impl App {
 
     // ── Key handling ──────────────────────────────────────────────
 
+    /// Fonction publique `handle_key`
     pub fn handle_key(&mut self, key: KeyEvent) -> bool {
         if key.modifiers.contains(KeyModifiers::CONTROL) && key.code == KeyCode::Char('c') {
             return true;

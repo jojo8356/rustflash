@@ -5,6 +5,7 @@ use tokio::sync::mpsc;
 use crate::core::backup::{BackupConfig, BackupEngine, BackupPhase};
 
 #[derive(Args)]
+/// Structure publique `RestoreArgs`
 pub struct RestoreArgs {
     /// Backup file to restore (.rfb)
     #[arg(short, long)]
@@ -27,6 +28,7 @@ pub struct RestoreArgs {
     pub yes: bool,
 }
 
+/// Fonction publique `execute`
 pub async fn execute(args: &RestoreArgs) -> anyhow::Result<()> {
     tracing::info!(input = %args.input, target = %args.target, "Starting restore operation");
 

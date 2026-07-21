@@ -5,15 +5,23 @@ use std::path::Path;
 use anyhow::Context;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
+/// Énumération publique `ImageFormat`
 pub enum ImageFormat {
+    /// Variante d'énumération `Raw` du type énuméré.
     Raw,
+    /// Variante d'énumération `Gzip` du type énuméré.
     Gzip,
+    /// Variante d'énumération `Xz` du type énuméré.
     Xz,
+    /// Variante d'énumération `Zstd` du type énuméré.
     Zstd,
+    /// Variante d'énumération `Bzip2` du type énuméré.
     Bzip2,
+    /// Variante d'énumération `Zip` du type énuméré.
     Zip,
 }
 
+/// Fonction publique `detect_format`
 pub fn detect_format(path: &Path) -> ImageFormat {
     let ext = path
         .extension()
@@ -42,6 +50,7 @@ pub fn detect_format(path: &Path) -> ImageFormat {
 /// Image file extensions considered flashable inside a ZIP archive.
 const IMAGE_EXTENSIONS: &[&str] = &["img", "iso", "raw", "bin", "dmg", "wic"];
 
+/// Fonction publique `open_image`
 pub fn open_image(path: &Path) -> anyhow::Result<Box<dyn Read + Send>> {
     let format = detect_format(path);
     let file = File::open(path).with_context(|| format!("Failed to open {}", path.display()))?;
@@ -123,4 +132,21 @@ fn open_zip_image(file: File) -> anyhow::Result<Box<dyn Read + Send>> {
         .context("Failed to extract image from ZIP")?;
 
     Ok(Box::new(Cursor::new(buf)))
+}
+
+#[cfg(test)]
+mod tests {
+    use super::detect_format;
+    use std::path::Path;
+
+    #[test]
+    fn detects_known_image_formats() {
+        assert_eq!(detect_format(Path::new("disk.img")), super::ImageFormat::Raw);
+        assert_eq!(detect_format(Path::new("os.img.gz")), super::ImageFormat::Gzip);
+        assert_eq!(detect_format(Path::new("archive.xz")), super::ImageFormat::Xz);
+        assert_eq!(detect_format(Path::new("archive.img.zst")), super::ImageFormat::Zstd);
+        assert_eq!(detect_format(Path::new("backup.img.bz2")), super::ImageFormat::Bzip2);
+        assert_eq!(detect_format(Path::new("archive.zip")), super::ImageFormat::Zip);
+        assert_eq!(detect_format(Path::new("IMAGE.IMG.GZ")), super::ImageFormat::Gzip);
+    }
 }

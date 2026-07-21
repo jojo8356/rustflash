@@ -1,6 +1,6 @@
 [package]
 name = "rustflash"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2024"
 description = "A fast, cross-platform tool for flashing OS images, cloning disks, managing backups and partitions"
 license = "MIT OR Apache-2.0"

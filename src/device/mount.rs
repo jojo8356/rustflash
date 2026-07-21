@@ -1,3 +1,4 @@
+/// Fonction publique `unmount_all_partitions`
 pub async fn unmount_all_partitions(device_path: &str) -> anyhow::Result<()> {
     let enumerator = crate::platform::get_enumerator();
     enumerator.unmount_device(device_path)?;
@@ -5,6 +6,7 @@ pub async fn unmount_all_partitions(device_path: &str) -> anyhow::Result<()> {
     Ok(())
 }
 
+/// Fonction publique `ensure_unmounted`
 pub async fn ensure_unmounted(device_path: &str) -> anyhow::Result<()> {
     #[cfg(target_os = "linux")]
     {

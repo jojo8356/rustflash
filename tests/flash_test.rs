@@ -1,12 +1,11 @@
-use assert_cmd::Command;
+use assert_cmd::cargo::cargo_bin_cmd;
 use predicates::prelude::*;
 use std::io::Write;
 use tempfile::NamedTempFile;
 
 #[test]
 fn test_flash_requires_image_arg() {
-    Command::cargo_bin("rustflash")
-        .unwrap()
+    cargo_bin_cmd!("rustflash")
         .arg("flash")
         .assert()
         .failure()
@@ -15,8 +14,7 @@ fn test_flash_requires_image_arg() {
 
 #[test]
 fn test_flash_requires_target_arg() {
-    Command::cargo_bin("rustflash")
-        .unwrap()
+    cargo_bin_cmd!("rustflash")
         .args(["flash", "--image", "test.iso"])
         .assert()
         .failure()

@@ -1,5 +1,8 @@
+/// Module public `block`
 pub mod block;
+/// Module public `decompress`
 pub mod decompress;
+/// Module public `download`
 pub mod download;
 
 use std::io::Read;

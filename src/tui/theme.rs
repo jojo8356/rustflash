@@ -1,26 +1,42 @@
 use ratatui::style::{Color, Modifier, Style};
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
+/// Énumération publique `ThemeKind`
 pub enum ThemeKind {
+    /// Variante d'énumération `Dark` du type énuméré.
     Dark,
+    /// Variante d'énumération `Light` du type énuméré.
     Light,
+    /// Variante d'énumération `HighContrast` du type énuméré.
     HighContrast,
 }
 
+/// Structure publique `Theme`
 pub struct Theme {
+    /// Champ public `bg` de la structure correspondante.
     pub bg: Color,
+    /// Champ public `fg` de la structure correspondante.
     pub fg: Color,
+    /// Champ public `accent` de la structure correspondante.
     pub accent: Color,
+    /// Champ public `warning` de la structure correspondante.
     pub warning: Color,
+    /// Champ public `error` de la structure correspondante.
     pub error: Color,
+    /// Champ public `success` de la structure correspondante.
     pub success: Color,
+    /// Champ public `muted` de la structure correspondante.
     pub muted: Color,
+    /// Champ public `border` de la structure correspondante.
     pub border: Color,
+    /// Champ public `highlight` de la structure correspondante.
     pub highlight: Style,
+    /// Champ public `title` de la structure correspondante.
     pub title: Style,
 }
 
 impl Theme {
+    /// Fonction publique `from_kind`
     pub fn from_kind(kind: ThemeKind) -> Self {
         match kind {
             ThemeKind::Dark => Self::dark(),

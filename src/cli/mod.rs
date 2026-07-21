@@ -1,3 +1,4 @@
+/// Module public `commands`
 pub mod commands;
 
 use clap::{Parser, Subcommand};
@@ -8,8 +9,10 @@ use clap::{Parser, Subcommand};
     version,
     about = "Fast, cross-platform tool for flashing images, cloning disks, and managing partitions"
 )]
+/// Structure publique `Cli`
 pub struct Cli {
     #[command(subcommand)]
+    /// Champ public `command` de la structure correspondante.
     pub command: Option<Commands>,
 
     /// Run in TUI mode (default when no command is given)
@@ -26,6 +29,7 @@ pub struct Cli {
 }
 
 #[derive(Subcommand)]
+/// Énumération publique `Commands`
 pub enum Commands {
     /// Flash an image to a target device
     Flash(commands::flash::FlashArgs),

@@ -8,6 +8,7 @@ use ratatui::{
 
 use crate::tui::app::{App, BackupState, RestoreState, Screen};
 
+/// Fonction publique `render`
 pub fn render(frame: &mut Frame, app: &App) {
     match app.screen {
         Screen::Backup => render_backup(frame, app),

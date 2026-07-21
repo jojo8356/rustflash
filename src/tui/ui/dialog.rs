@@ -6,15 +6,22 @@ use ratatui::{
     Frame,
 };
 
+/// Structure publique `ConfirmDialog`
 pub struct ConfirmDialog {
+    /// Champ public `title` de la structure correspondante.
     pub title: String,
+    /// Champ public `message` de la structure correspondante.
     pub message: String,
+    /// Champ public `confirm_text` de la structure correspondante.
     pub confirm_text: String,
+    /// Champ public `cancel_text` de la structure correspondante.
     pub cancel_text: String,
+    /// Champ public `selected_confirm` de la structure correspondante.
     pub selected_confirm: bool,
 }
 
 impl ConfirmDialog {
+    /// Fonction publique `new`
     pub fn new(title: impl Into<String>, message: impl Into<String>) -> Self {
         Self {
             title: title.into(),
@@ -25,6 +32,7 @@ impl ConfirmDialog {
         }
     }
 
+    /// Fonction publique `destructive`
     pub fn destructive(title: impl Into<String>, message: impl Into<String>) -> Self {
         Self {
             title: title.into(),
@@ -35,6 +43,7 @@ impl ConfirmDialog {
         }
     }
 
+    /// Fonction publique `render`
     pub fn render(&self, frame: &mut Frame, area: Rect) {
         let dialog_area = centered_rect(60, 40, area);
 

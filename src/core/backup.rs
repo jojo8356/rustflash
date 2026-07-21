@@ -5,26 +5,42 @@ use serde::{Deserialize, Serialize};
 use sha2::Digest;
 use tokio::sync::mpsc;
 
+/// Constante publique `MAGIC`
 pub const MAGIC: &[u8; 8] = b"RFLASH\x01\x00";
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+/// Structure publique `BackupHeader`
 pub struct BackupHeader {
+    /// Champ public `version` de la structure correspondante.
     pub version: u32,
+    /// Champ public `created` de la structure correspondante.
     pub created: DateTime<Utc>,
+    /// Champ public `source_size` de la structure correspondante.
     pub source_size: u64,
+    /// Champ public `block_size` de la structure correspondante.
     pub block_size: u32,
+    /// Champ public `compression` de la structure correspondante.
     pub compression: String,
+    /// Champ public `hash_algorithm` de la structure correspondante.
     pub hash_algorithm: String,
+    /// Champ public `partition_table` de la structure correspondante.
     pub partition_table: Option<String>,
+    /// Champ public `source_device` de la structure correspondante.
     pub source_device: Option<String>,
+    /// Champ public `checksum` de la structure correspondante.
     pub checksum: String,
 }
 
 #[derive(Debug, Clone)]
+/// Structure publique `BackupConfig`
 pub struct BackupConfig {
+    /// Champ public `block_size` de la structure correspondante.
     pub block_size: usize,
+    /// Champ public `compression` de la structure correspondante.
     pub compression: String,
+    /// Champ public `compression_level` de la structure correspondante.
     pub compression_level: u32,
+    /// Champ public `smart` de la structure correspondante.
     pub smart: bool,
 }
 
@@ -40,26 +56,38 @@ impl Default for BackupConfig {
 }
 
 #[derive(Debug, Clone)]
+/// Structure publique `BackupProgress`
 pub struct BackupProgress {
+    /// Champ public `bytes_processed` de la structure correspondante.
     pub bytes_processed: u64,
+    /// Champ public `total_bytes` de la structure correspondante.
     pub total_bytes: u64,
+    /// Champ public `phase` de la structure correspondante.
     pub phase: BackupPhase,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
+/// Énumération publique `BackupPhase`
 pub enum BackupPhase {
+    /// Variante d'énumération `Analyzing` du type énuméré.
     Analyzing,
+    /// Variante d'énumération `Reading` du type énuméré.
     Reading,
+    /// Variante d'énumération `Compressing` du type énuméré.
     Compressing,
+    /// Variante d'énumération `Done` du type énuméré.
     Done,
+    /// Variante d'énumération `Failed` du type énuméré.
     Failed,
 }
 
+/// Structure publique `BackupEngine`
 pub struct BackupEngine {
     config: BackupConfig,
 }
 
 impl BackupEngine {
+    /// Fonction publique `new`
     pub fn new(config: BackupConfig) -> Self {
         Self { config }
     }
@@ -89,6 +117,7 @@ impl BackupEngine {
         Ok(header)
     }
 
+    /// Fonction publique `create_backup`
     pub async fn create_backup(
         &self,
         source: &str,
@@ -274,6 +303,7 @@ impl BackupEngine {
         Ok(())
     }
 
+    /// Fonction publique `restore_backup`
     pub async fn restore_backup(
         &self,
         input_path: &str,

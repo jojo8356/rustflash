@@ -1,6 +1,10 @@
+/// Module public `app`
 pub mod app;
+/// Module public `event`
 pub mod event;
+/// Module public `theme`
 pub mod theme;
+/// Module public `ui`
 pub mod ui;
 
 use anyhow::Result;
@@ -14,6 +18,7 @@ use ratatui::prelude::*;
 use self::app::App;
 use self::event::EventHandler;
 
+/// Fonction publique `run`
 pub async fn run() -> Result<()> {
     // Setup terminal
     enable_raw_mode()?;

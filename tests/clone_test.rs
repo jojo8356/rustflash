@@ -1,10 +1,9 @@
-use assert_cmd::Command;
+use assert_cmd::cargo::cargo_bin_cmd;
 use predicates::prelude::*;
 
 #[test]
 fn test_clone_requires_source_arg() {
-    Command::cargo_bin("rustflash")
-        .unwrap()
+    cargo_bin_cmd!("rustflash")
         .arg("clone")
         .assert()
         .failure()

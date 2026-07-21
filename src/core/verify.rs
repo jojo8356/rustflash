@@ -4,14 +4,20 @@ use std::path::Path;
 use sha2::Digest;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
+/// Énumération publique `HashAlgorithm`
 pub enum HashAlgorithm {
+    /// Variante d'énumération `Sha256` du type énuméré.
     Sha256,
+    /// Variante d'énumération `Sha512` du type énuméré.
     Sha512,
+    /// Variante d'énumération `Md5` du type énuméré.
     Md5,
+    /// Variante d'énumération `Blake3` du type énuméré.
     Blake3,
 }
 
 impl HashAlgorithm {
+    /// Fonction publique `from_prefix`
     pub fn from_prefix(s: &str) -> Option<(Self, &str)> {
         if let Some(hash) = s.strip_prefix("sha256:") {
             Some((Self::Sha256, hash))

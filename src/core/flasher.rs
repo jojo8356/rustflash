@@ -4,9 +4,13 @@ use std::path::Path;
 use tokio::sync::mpsc;
 
 #[derive(Debug, Clone)]
+/// Structure publique `FlashConfig`
 pub struct FlashConfig {
+    /// Champ public `block_size` de la structure correspondante.
     pub block_size: usize,
+    /// Champ public `verify` de la structure correspondante.
     pub verify: bool,
+    /// Champ public `auto_unmount` de la structure correspondante.
     pub auto_unmount: bool,
 }
 
@@ -21,37 +25,55 @@ impl Default for FlashConfig {
 }
 
 #[derive(Debug, Clone)]
+/// Structure publique `FlashProgress`
 pub struct FlashProgress {
+    /// Champ public `device_index` de la structure correspondante.
     pub device_index: usize,
+    /// Champ public `device_name` de la structure correspondante.
     pub device_name: String,
+    /// Champ public `bytes_written` de la structure correspondante.
     pub bytes_written: u64,
+    /// Champ public `total_bytes` de la structure correspondante.
     pub total_bytes: u64,
+    /// Champ public `phase` de la structure correspondante.
     pub phase: FlashPhase,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
+/// Énumération publique `FlashPhase`
 pub enum FlashPhase {
+    /// Variante d'énumération `Preparing` du type énuméré.
     Preparing,
+    /// Variante d'énumération `Writing` du type énuméré.
     Writing,
+    /// Variante d'énumération `Verifying` du type énuméré.
     Verifying,
+    /// Variante d'énumération `Done` du type énuméré.
     Done,
+    /// Variante d'énumération `Failed` du type énuméré.
     Failed,
 }
 
 /// Result of a multi-flash operation per device.
 #[derive(Debug)]
 pub struct FlashResult {
+    /// Champ public `device` de la structure correspondante.
     pub device: String,
+    /// Champ public `success` de la structure correspondante.
     pub success: bool,
+    /// Champ public `bytes_written` de la structure correspondante.
     pub bytes_written: u64,
+    /// Champ public `error` de la structure correspondante.
     pub error: Option<String>,
 }
 
+/// Structure publique `Flasher`
 pub struct Flasher {
     config: FlashConfig,
 }
 
 impl Flasher {
+    /// Fonction publique `new`
     pub fn new(config: FlashConfig) -> Self {
         Self { config }
     }

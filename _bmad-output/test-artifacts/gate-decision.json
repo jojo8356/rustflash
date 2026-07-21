@@ -1,0 +1,20 @@
+{
+  "workflow": "bmad-testarch-trace",
+  "gate_version": "1.0",
+  "generated_at": "2026-07-21T20:00:00Z",
+  "decision": "CONCERNS",
+  "summary": "Requirements partiellement couvertes; architecture et sécurité critiques avancées, mais couverture e2e par plateforme insuffisante pour valider pleinement la stabilité croisée.",
+  "evidence": {
+    "requirements_total": 8,
+    "requirements_fully_covered": 2,
+    "requirements_partially_covered": 5,
+    "requirements_uncovered": 1,
+    "overall_coverage_pct": 31.25
+  },
+  "conditions_to_unlock_pass": [
+    "Ajouter au moins 2 scénarios e2e de sécurité destructive sur environnement Windows/macOS simulés ou intégrés",
+    "Monter la couverture partielle FR-2 à ≥ 80% via tests négatifs",
+    "Ajouter une preuve de perf/burn-in minimale"
+  ],
+  "requires_manual": true
+}

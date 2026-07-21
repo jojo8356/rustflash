@@ -5,6 +5,7 @@ use tokio::sync::mpsc;
 use crate::core::backup::{BackupConfig, BackupEngine, BackupPhase};
 
 #[derive(Args)]
+/// Structure publique `BackupArgs`
 pub struct BackupArgs {
     /// Source device to backup
     #[arg(short, long)]
@@ -31,6 +32,7 @@ pub struct BackupArgs {
     pub yes: bool,
 }
 
+/// Fonction publique `execute`
 pub async fn execute(args: &BackupArgs) -> anyhow::Result<()> {
     tracing::info!(source = %args.source, output = %args.output, "Starting backup operation");
 

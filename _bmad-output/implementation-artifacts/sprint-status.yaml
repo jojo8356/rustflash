@@ -1,0 +1,53 @@
+# generated: 2026-07-21 16:30
+# last_updated: 2026-07-21 16:30
+# project: rustflash
+# project_key: NOKEY
+# tracking_system: file-system
+# story_location: /home/jojokes/Documents/programmation/projets/autres/rustflash/_bmad-output/implementation-artifacts
+
+# STATUS DEFINITIONS:
+# ==================
+# Epic Status:
+#   - backlog: Epic not yet started
+#   - in-progress: Epic actively being worked on
+#   - done: All stories in epic completed
+#
+# Epic Status Transitions:
+#   - backlog → in-progress: Automatically when first story is created (via create-story)
+#   - in-progress → done: Manually when all stories reach 'done' status
+#
+# Story Status:
+#   - backlog: Story only exists in epic file
++#   - ready-for-dev: Story file created in stories folder
++#   - in-progress: Developer actively working on implementation
+#   - review: Ready for code review
+#   - done: Story completed
+#
+# Retrospective Status:
+#   - optional: Can be completed but not required
+#   - done: Retrospective has been completed
+#
+# Action Item Status:
+#   - open: Committed during a retrospective, not yet addressed
+#   - in-progress: Actively being worked on
+#   - done: Completed
+#
+# WORKFLOW NOTES:
+# ===============
+# - Mark epic as 'in-progress' when first story is actively implemented.
+# - Stories can be created and developed progressively in order, parallel is possible.
+#
+#
+
+generated: 2026-07-21 16:30
+last_updated: 2026-07-21 20:30
+project: rustflash
+project_key: NOKEY
+tracking_system: file-system
+story_location: _bmad-output/implementation-artifacts
+
+development_status:
+  epic-1: done
+  1-1-initialize-cross-platform-device-support: done
+  1-2-implement-cross-platform-device-enumeration: done
+  epic-1-retrospective: optional

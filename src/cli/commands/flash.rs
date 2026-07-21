@@ -9,6 +9,7 @@ use crate::core::flasher::{FlashConfig, FlashPhase, FlashProgress, Flasher};
 use crate::io::download;
 
 #[derive(Args)]
+/// Structure publique `FlashArgs`
 pub struct FlashArgs {
     /// Path or URL to the image file
     #[arg(short, long)]
@@ -35,6 +36,7 @@ pub struct FlashArgs {
     pub checksum: Option<String>,
 }
 
+/// Fonction publique `execute`
 pub async fn execute(args: &FlashArgs) -> anyhow::Result<()> {
     if args.target.is_empty() {
         anyhow::bail!("At least one --target is required");

@@ -5,13 +5,18 @@ use ratatui::{
     Frame,
 };
 
+/// Structure publique `ProgressBar`
 pub struct ProgressBar {
+    /// Champ public `label` de la structure correspondante.
     pub label: String,
+    /// Champ public `ratio` de la structure correspondante.
     pub ratio: f64,
+    /// Champ public `color` de la structure correspondante.
     pub color: Color,
 }
 
 impl ProgressBar {
+    /// Fonction publique `new`
     pub fn new(label: impl Into<String>, ratio: f64) -> Self {
         Self {
             label: label.into(),
@@ -20,6 +25,7 @@ impl ProgressBar {
         }
     }
 
+    /// Fonction publique `render`
     pub fn render(&self, frame: &mut Frame, area: Rect) {
         let gauge = Gauge::default()
             .block(Block::default().borders(Borders::ALL))

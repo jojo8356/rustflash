@@ -5,6 +5,7 @@ use tokio::sync::mpsc;
 use crate::core::cloner::{CloneConfig, CloneMode, ClonePhase, Cloner, CompressionType};
 
 #[derive(Args)]
+/// Structure publique `CloneArgs`
 pub struct CloneArgs {
     /// Source device (e.g., /dev/sda)
     #[arg(short, long)]
@@ -31,6 +32,7 @@ pub struct CloneArgs {
     pub yes: bool,
 }
 
+/// Fonction publique `execute`
 pub async fn execute(args: &CloneArgs) -> anyhow::Result<()> {
     tracing::info!(source = %args.source, dest = %args.dest, "Starting clone operation");
 

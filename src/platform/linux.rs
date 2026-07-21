@@ -1,6 +1,7 @@
 use crate::device::detect::DeviceInfo;
 use crate::platform::DeviceEnumerator;
 
+/// Structure publique `LinuxEnumerator`
 pub struct LinuxEnumerator;
 
 impl DeviceEnumerator for LinuxEnumerator {

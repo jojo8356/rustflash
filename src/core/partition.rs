@@ -5,24 +5,37 @@ use serde::{Deserialize, Serialize};
 use tokio::sync::mpsc;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+/// Énumération publique `TableType`
 pub enum TableType {
+    /// Variante d'énumération `Gpt` du type énuméré.
     Gpt,
+    /// Variante d'énumération `Mbr` du type énuméré.
     Mbr,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+/// Énumération publique `FsType`
 pub enum FsType {
+    /// Variante d'énumération `Ext4` du type énuméré.
     Ext4,
+    /// Variante d'énumération `Fat32` du type énuméré.
     Fat32,
+    /// Variante d'énumération `Ntfs` du type énuméré.
     Ntfs,
+    /// Variante d'énumération `ExFat` du type énuméré.
     ExFat,
+    /// Variante d'énumération `Apfs` du type énuméré.
     Apfs,
+    /// Variante d'énumération `Hfs` du type énuméré.
     Hfs,
+    /// Variante d'énumération `Swap` du type énuméré.
     Swap,
+    /// Variante d'énumération `Unknown` du type énuméré.
     Unknown,
 }
 
 impl FsType {
+    /// Fonction publique `from_str`
     pub fn from_str(s: &str) -> Self {
         match s.to_lowercase().as_str() {
             "ext4" => Self::Ext4,
@@ -36,6 +49,7 @@ impl FsType {
         }
     }
 
+    /// Fonction publique `as_str`
     pub fn as_str(&self) -> &'static str {
         match self {
             Self::Ext4 => "ext4",
@@ -51,29 +65,47 @@ impl FsType {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+/// Structure publique `PartitionInfo`
 pub struct PartitionInfo {
+    /// Champ public `number` de la structure correspondante.
     pub number: u32,
+    /// Champ public `start_sector` de la structure correspondante.
     pub start_sector: u64,
+    /// Champ public `end_sector` de la structure correspondante.
     pub end_sector: u64,
+    /// Champ public `size_bytes` de la structure correspondante.
     pub size_bytes: u64,
+    /// Champ public `fs_type` de la structure correspondante.
     pub fs_type: FsType,
+    /// Champ public `label` de la structure correspondante.
     pub label: Option<String>,
+    /// Champ public `flags` de la structure correspondante.
     pub flags: Vec<String>,
+    /// Champ public `uuid` de la structure correspondante.
     pub uuid: Option<String>,
 }
 
 #[derive(Debug, Clone, Copy)]
+/// Énumération publique `EraseMethod`
 pub enum EraseMethod {
+    /// Variante d'énumération `Zero` du type énuméré.
     Zero,
+    /// Variante d'énumération `Random` du type énuméré.
     Random,
+    /// Variante d'énumération `Dod` du type énuméré.
     Dod,
 }
 
 #[derive(Debug, Clone)]
+/// Structure publique `EraseProgress`
 pub struct EraseProgress {
+    /// Champ public `bytes_erased` de la structure correspondante.
     pub bytes_erased: u64,
+    /// Champ public `total_bytes` de la structure correspondante.
     pub total_bytes: u64,
+    /// Champ public `pass` de la structure correspondante.
     pub pass: u32,
+    /// Champ public `total_passes` de la structure correspondante.
     pub total_passes: u32,
 }
 
@@ -104,6 +136,7 @@ pub fn parse_size(s: &str) -> anyhow::Result<u64> {
     Ok(num * multiplier)
 }
 
+/// Structure publique `PartitionManager`
 pub struct PartitionManager;
 
 impl PartitionManager {

@@ -1,19 +1,29 @@
 use std::path::{Path, PathBuf};
 
+/// Structure publique `FileBrowser`
 pub struct FileBrowser {
+    /// Champ public `current_dir` de la structure correspondante.
     pub current_dir: PathBuf,
+    /// Champ public `entries` de la structure correspondante.
     pub entries: Vec<FileEntry>,
+    /// Champ public `selected` de la structure correspondante.
     pub selected: usize,
+    /// Champ public `filter_extensions` de la structure correspondante.
     pub filter_extensions: Vec<String>,
 }
 
+/// Structure publique `FileEntry`
 pub struct FileEntry {
+    /// Champ public `path` de la structure correspondante.
     pub path: PathBuf,
+    /// Champ public `is_dir` de la structure correspondante.
     pub is_dir: bool,
+    /// Champ public `size` de la structure correspondante.
     pub size: u64,
 }
 
 impl FileBrowser {
+    /// Fonction publique `new`
     pub fn new(start_dir: &Path, extensions: Vec<String>) -> Self {
         let mut browser = Self {
             current_dir: start_dir.to_path_buf(),
@@ -25,6 +35,7 @@ impl FileBrowser {
         browser
     }
 
+    /// Fonction publique `refresh`
     pub fn refresh(&mut self) {
         self.entries.clear();
         self.selected = 0;
@@ -77,6 +88,7 @@ impl FileBrowser {
             .any(|f| f.to_lowercase() == ext_lower)
     }
 
+    /// Fonction publique `enter_selected`
     pub fn enter_selected(&mut self) {
         if let Some(entry) = self.entries.get(self.selected) {
             if entry.is_dir {
@@ -86,6 +98,7 @@ impl FileBrowser {
         }
     }
 
+    /// Fonction publique `selected_path`
     pub fn selected_path(&self) -> Option<&Path> {
         self.entries
             .get(self.selected)

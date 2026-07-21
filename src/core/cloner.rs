@@ -3,39 +3,61 @@ use std::io::{Read, Seek, SeekFrom, Write};
 use tokio::sync::mpsc;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
+/// Énumération publique `CloneMode`
 pub enum CloneMode {
+    /// Variante d'énumération `Raw` du type énuméré.
     Raw,
+    /// Variante d'énumération `Smart` du type énuméré.
     Smart,
 }
 
 #[derive(Debug, Clone)]
+/// Structure publique `CloneConfig`
 pub struct CloneConfig {
+    /// Champ public `mode` de la structure correspondante.
     pub mode: CloneMode,
+    /// Champ public `block_size` de la structure correspondante.
     pub block_size: usize,
+    /// Champ public `verify` de la structure correspondante.
     pub verify: bool,
+    /// Champ public `compression` de la structure correspondante.
     pub compression: Option<CompressionType>,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
+/// Énumération publique `CompressionType`
 pub enum CompressionType {
+    /// Variante d'énumération `Gzip` du type énuméré.
     Gzip,
+    /// Variante d'énumération `Xz` du type énuméré.
     Xz,
+    /// Variante d'énumération `Zstd` du type énuméré.
     Zstd,
 }
 
 #[derive(Debug, Clone)]
+/// Structure publique `CloneProgress`
 pub struct CloneProgress {
+    /// Champ public `bytes_copied` de la structure correspondante.
     pub bytes_copied: u64,
+    /// Champ public `total_bytes` de la structure correspondante.
     pub total_bytes: u64,
+    /// Champ public `phase` de la structure correspondante.
     pub phase: ClonePhase,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
+/// Énumération publique `ClonePhase`
 pub enum ClonePhase {
+    /// Variante d'énumération `Analyzing` du type énuméré.
     Analyzing,
+    /// Variante d'énumération `Copying` du type énuméré.
     Copying,
+    /// Variante d'énumération `Verifying` du type énuméré.
     Verifying,
+    /// Variante d'énumération `Done` du type énuméré.
     Done,
+    /// Variante d'énumération `Failed` du type énuméré.
     Failed,
 }
 
@@ -50,15 +72,18 @@ impl Default for CloneConfig {
     }
 }
 
+/// Structure publique `Cloner`
 pub struct Cloner {
     config: CloneConfig,
 }
 
 impl Cloner {
+    /// Fonction publique `new`
     pub fn new(config: CloneConfig) -> Self {
         Self { config }
     }
 
+    /// Fonction publique `clone_device`
     pub async fn clone_device(
         &self,
         source: &str,

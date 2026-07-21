@@ -8,6 +8,7 @@ use ratatui::{
 
 use crate::tui::app::{App, FlashState};
 
+/// Fonction publique `render`
 pub fn render(frame: &mut Frame, app: &App) {
     let area = frame.area();
 

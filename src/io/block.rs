@@ -3,6 +3,7 @@ use std::path::Path;
 use tokio::fs::File;
 use tokio::io::{AsyncReadExt, AsyncWriteExt};
 
+/// Structure publique `BlockWriter`
 pub struct BlockWriter {
     file: File,
     block_size: usize,
@@ -10,6 +11,7 @@ pub struct BlockWriter {
 }
 
 impl BlockWriter {
+    /// Fonction publique `open`
     pub async fn open(device_path: &str, block_size: usize) -> anyhow::Result<Self> {
         tracing::debug!(device = device_path, block_size, "Opening device for writing");
 
@@ -25,31 +27,37 @@ impl BlockWriter {
         })
     }
 
+    /// Fonction publique `write_block`
     pub async fn write_block(&mut self, data: &[u8]) -> anyhow::Result<()> {
         self.file.write_all(data).await?;
         self.bytes_written += data.len() as u64;
         Ok(())
     }
 
+    /// Fonction publique `flush`
     pub async fn flush(&mut self) -> anyhow::Result<()> {
         self.file.flush().await?;
         Ok(())
     }
 
+    /// Fonction publique `sync`
     pub async fn sync(&self) -> anyhow::Result<()> {
         self.file.sync_all().await?;
         Ok(())
     }
 
+    /// Fonction publique `bytes_written`
     pub fn bytes_written(&self) -> u64 {
         self.bytes_written
     }
 
+    /// Fonction publique `block_size`
     pub fn block_size(&self) -> usize {
         self.block_size
     }
 }
 
+/// Structure publique `BlockReader`
 pub struct BlockReader {
     file: File,
     block_size: usize,
@@ -57,6 +65,7 @@ pub struct BlockReader {
 }
 
 impl BlockReader {
+    /// Fonction publique `open`
     pub async fn open(path: &Path, block_size: usize) -> anyhow::Result<Self> {
         let file = tokio::fs::File::open(path).await?;
         Ok(Self {
@@ -66,6 +75,7 @@ impl BlockReader {
         })
     }
 
+    /// Fonction publique `open_device`
     pub async fn open_device(device_path: &str, block_size: usize) -> anyhow::Result<Self> {
         let file = tokio::fs::File::open(device_path).await?;
         Ok(Self {
@@ -75,6 +85,7 @@ impl BlockReader {
         })
     }
 
+    /// Fonction publique `read_block`
     pub async fn read_block(&mut self, buf: &mut [u8]) -> anyhow::Result<usize> {
         let n = self.file.read(buf).await?;
         self.bytes_read += n as u64;
@@ -95,10 +106,12 @@ impl BlockReader {
         Ok(total)
     }
 
+    /// Fonction publique `bytes_read`
     pub fn bytes_read(&self) -> u64 {
         self.bytes_read
     }
 
+    /// Fonction publique `block_size`
     pub fn block_size(&self) -> usize {
         self.block_size
     }

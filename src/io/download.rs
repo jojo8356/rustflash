@@ -6,10 +6,15 @@ use tokio::io::AsyncWriteExt;
 use tokio::sync::mpsc;
 
 #[derive(Debug, Clone)]
+/// Structure publique `DownloadProgress`
 pub struct DownloadProgress {
+    /// Champ public `bytes_downloaded` de la structure correspondante.
     pub bytes_downloaded: u64,
+    /// Champ public `total_bytes` de la structure correspondante.
     pub total_bytes: Option<u64>,
+    /// Champ public `speed_bytes_per_sec` de la structure correspondante.
     pub speed_bytes_per_sec: f64,
+    /// Champ public `resumed` de la structure correspondante.
     pub resumed: bool,
 }
 
@@ -103,6 +108,7 @@ pub async fn download_image(
     Ok(())
 }
 
+/// Fonction publique `is_url`
 pub fn is_url(s: &str) -> bool {
     s.starts_with("http://") || s.starts_with("https://")
 }

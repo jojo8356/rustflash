@@ -1,6 +1,7 @@
 use clap::Args;
 
 #[derive(Args)]
+/// Structure publique `ListArgs`
 pub struct ListArgs {
     /// Output as JSON
     #[arg(long, default_value_t = false)]
@@ -11,6 +12,7 @@ pub struct ListArgs {
     pub all: bool,
 }
 
+/// Fonction publique `execute`
 pub async fn execute(args: &ListArgs) -> anyhow::Result<()> {
     let devices = crate::device::detect::list_devices(args.all).await?;
 
