@@ -50,11 +50,17 @@ fn is_block_device_path(device_path: &str) -> bool {
     if let Ok(_metadata) = std::fs::metadata(device_path) {
         #[cfg(unix)]
         {
+            let metadata = _metadata;
             use std::os::unix::fs::FileTypeExt;
             let ft = metadata.file_type();
             if ft.is_block_device() || ft.is_char_device() {
                 return true;
             }
+        }
+
+        #[cfg(not(unix))]
+        {
+            let _ = &_metadata;
         }
     }
 
